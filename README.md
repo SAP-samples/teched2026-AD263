@@ -15,9 +15,11 @@ Joule Studio supports two development modes:
 | Mode               | Who it's for                  | How it works                                                     |
 | ------------------ | ----------------------------- | ---------------------------------------------------------------- |
 | Web                | Developers, business analysts | Visual flow builder in a browser                                 |
-| **Pro-code / CLI** | Developers, technical PMs     | `jl` CLI + coding agent (Claude Code or opencode) on your laptop |
+| **Local / CLI**    | Developers, technical PMs     | `jl` CLI + coding agent (Claude Code or opencode) on your laptop |
 
-In this session you use the **pro-code / CLI** path. The core mechanic is **Intent-Based Development (IBD)**: you describe the agent's goal in plain language, and Joule Studio's IBD engine generates a PRD, a technical specification, and a full implementation — which you then review, extend, and deploy.
+![Joule Studio: Build Agents in the Browser or Locally](images/joule_studio_paths.png)
+
+In this session you use the **local / CLI** path. The core mechanic is **Intent-Based Development (IBD)**: you describe the agent's goal in plain language, and Joule Studio's IBD engine generates a PRD, a technical specification, and a full implementation — which you then review, extend, and deploy.
 
 The `jl` CLI is the entry point for the pro-code flow:
 
@@ -30,7 +32,7 @@ Once initialised, a coding agent (Claude Code or Opencode) runs inside your term
 
 ---
 
-In this session you will build a production-grade AI agent from scratch using the **Joule Studio Pro-Code / CLI flow**. The agent connects to SAP S/4HANA Public Cloud and automates the end-to-end response to a supplier disruption event: from identifying at-risk purchase orders and scheduling agreements to delivering a risk-scored, fully labeled assessment report.
+In this session you will build a production-grade AI agent from scratch using the **Joule Studio Local / CLI flow**. The agent connects to SAP S/4HANA Public Cloud and automates the end-to-end response to a supplier disruption event: from identifying at-risk purchase orders and scheduling agreements to delivering a risk-scored, fully labeled assessment report.
 
 ---
 
@@ -133,7 +135,7 @@ Start with [Exercise 0 →](exercises/ex00/README.md)
 
 After completing this session you will be able to:
 
-1. Use the Joule Studio **pro-code / CLI** IBD flow end-to-end: Intent → PRD → Specification → Implementation
+1. Use the Joule Studio **local / CLI** IBD flow end-to-end: Intent → PRD → Specification → Implementation
 2. Discover SAP APIs via the SAP Knowledge Graph and generate MCP servers from OpenAPI and EDMX specs
 3. Build a multi-API AI agent on SAP S/4HANA Public Cloud from scratch
 4. Implement risk scoring and output labeling as production-grade agent guardrails
