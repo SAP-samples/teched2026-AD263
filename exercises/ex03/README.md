@@ -2,7 +2,7 @@
 
 The coding agent is now implementing the solution from the specification. This takes **20–25 minutes**. Work through the steps below while it runs.
 
-> [!tip]
+> **💡 Tip**
 > If the coding agent pauses and waits for input, type `continue`.
 
 > **Note — IBD variance is normal**
@@ -60,7 +60,7 @@ IBD can implement risk scoring in different ways — a Python file (`app/risk_sc
 > Different answers to the clarifying questions in Exercise 1 can produce different implementation choices here. Both a Python scorer and a skill-based scorer are valid — the labeling discipline is what matters.
 
 
-> [!tip] Finished early?
+> **💡 Finished early?**
 > Start the bonus while you wait: [Exercise 5 — Bonus Exercises](../ex05/README.md)
 
 ---
@@ -108,7 +108,7 @@ When the coding agent finishes, verify your project has this shape. The exact fo
 - [ ] At least one skill file exists under `app/skills/`
 - [ ] A `tests/` folder exists inside `assets/<your-agent-name>/` with test files
 
-> [!warning] Unexpected MCP server folders?
+> **⚠️ Unexpected MCP server folders?**
 > If you see MCP server folders for APIs **not** in the available list (`CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001`), the spec contained an unregistered API. Tell the coding agent: `"Remove the [name] MCP server asset — only CE_PURCHASEORDER_0001, API_SCHED_AGRMT_PROCESS_SRV, and CE_SUPPLIERLIST_0001 are registered on this tenant."` Then ask it to update `solution.yaml` and `asset.yaml` to remove the reference before deploying.
 
 ---

@@ -44,7 +44,7 @@ In the background, `jl solution validate` runs automatically — it checks your 
 
 When deployment completes you will see a confirmation with the deployment endpoint URL.
 
-> [!tip] Bonus: Monitor your agent in the web UI
+> **💡 Bonus: Monitor your agent in the web UI**
 > You can open Joule Studio in your browser while the agent deploys — it will appear there with the same folder structure once registered. There you can also share the solution with a business user for review.
 
 ---
@@ -108,7 +108,7 @@ Work through this checklist:
 - [ ] Risk-scored exposure summary presented with all items labeled `[Confirmed Fact]` or `[Assumption]`
 - [ ] Recommended actions labeled `[Recommendation]`
 
-> [!tip] Use OTEL traces to debug
+> **💡 Use OTEL traces to debug**
 > If the agent skips a milestone or produces unexpected output, open the **Tracing** tab in Joule Studio — each span shows which tool was called, with what inputs, and how long it took. This is the fastest way to identify instruction drift or a misconfigured tool.
 
 ---

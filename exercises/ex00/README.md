@@ -31,7 +31,7 @@ You should now see an empty Explorer panel with the folder name at the top left.
 
 ![Empty project folder open in Explorer](images/03_folder_open_in_explorer.png)
 
-> [!tip]
+> **💡 Tip**
 > If VS Code asks "Do you trust the authors of the files in this folder?" — click **Yes, I trust the authors**.
 
 ## Step 0.3 — Open a Terminal
@@ -96,10 +96,10 @@ jl login '<your Sign-in URL>'
 
 A browser window opens for you to authenticate. Once you confirm, the CLI stores the session and you can close the browser tab.
 
-> [!tip]
+> **💡 Tip**
 > After the first successful login, running `jl login` without an argument reuses the stored URL.
 
-> [!warning] Login expired?
+> **⚠️ Login expired?**
 > If you see `401 Unauthorized` at any later step, open a new terminal tab and run `jl login` again before retrying.
 
 ## Step 0.6 — Initialize the Project
@@ -118,7 +118,7 @@ jl init opencode
 
 ![jl init complete — .claude/ skills tree visible in Explorer](images/08_jl_init_complete_skills_tree.png)
 
-> [!warning] Do not modify the IBD skills
+> **⚠️ Do not modify the IBD skills**
 > The files fetched into `.claude/skills/` encode the conventions the generated solution needs for deployment. Do not edit them. Customise your agent through its own code, instructions, and tools — not through the skills that generate it.
 
 ## Step 0.7 — Launch the Coding Agent
@@ -137,7 +137,7 @@ The coding agent opens. You will see a chat interface inside the terminal.
 
 ![Claude Code launched and ready](images/09_claude_code_launched.png)
 
-> [!tip] Auto-approve mode
+> **💡 Auto-approve mode**
 > To skip per-action confirmation prompts during the exercise:
 > - **Claude Code**: press `Shift+Tab` once or twice to cycle to **Auto-approve** mode (shown in the status line)
 > - **opencode**: append `--auto` when launching: `opencode --auto`

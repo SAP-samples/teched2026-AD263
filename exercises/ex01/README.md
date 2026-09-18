@@ -22,7 +22,7 @@ Rules the agent must follow:
 - Every output must be labeled [Confirmed Fact], [Assumption], or [Recommendation]
 ```
 
-> [!tip] In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.
+> **💡 In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.**
 
 The IBD skill loads and begins the intent analysis pipeline.
 
@@ -63,7 +63,7 @@ IBD may show a numbered list of goals — pick the ones that fit. For this scena
 
 ---
 
-> [!tip]
+> **💡 Tip**
 > Not sure about a question? Give a short answer and move on — you will review the full `intent.md` document before the PRD is generated, and you can ask the coding agent to adjust anything that doesn't look right.
 
 

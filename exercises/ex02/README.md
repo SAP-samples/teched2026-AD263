@@ -31,7 +31,7 @@ Scroll through the document — it covers business goals, milestones, RBA mappin
 
 ![intent.md — Recommendations and Executive Summary](images/06_intent_md_recommendations.png)
 
-> [!tip] Refining intent
+> **💡 Refining intent**
 > If something important is missing, type a correction in the coding agent before proceeding. Example:
 > `"Also add: the risk score must show the scoring rationale for each line item, not just the label."`
 
@@ -60,7 +60,7 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 | `sap.s4:apiResource:API_BUSINESS_PARTNER:v1`          | Business Partner                             | ❌ No                |
 | `sap.s4:apiResource:API_PURCHASEORDER_PROCESS_SRV:v1` | Purchase Orders (On-Premise Edition)         | ❌ No                |
 
-> [!tip] Why does IBD sometimes pick the wrong API?
+> **💡 Why does IBD sometimes pick the wrong API?**
 > IBD uses the SAP Knowledge Graph to discover APIs. The graph contains all published SAP APIs — including ones not registered on every tenant. The warnings in Steps 2.1–2.3 above tell you exactly how to correct the scope if IBD picks an unavailable API.
 
 
@@ -99,12 +99,12 @@ IBD generates `specification.md` inside `specification/<your-agent-name>/`. Open
 - [ ] A `risk_scoring` logic is described
 - [ ] Guidance for the agent is captured in `.md` skill files
 
-> [!warning] Unregistered API in the spec?
+> **⚠️ Unregistered API in the spec?**
 > If the spec lists any API **not** in the available list below, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent:   to Remove [API name] from the specification and only use APIs from the list. The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
 
 ![specification.md — Runtime Fundamentals, Testing, ready to implement](images/12_spec_md_runtime_testing_ready.png)
 
-> [!tip] MCP translation files
+> **💡 MCP translation files**
 > Each MCP server entry in the spec references a `translation.json`. This file maps OpenAPI/EDMX endpoints to named tools the agent can call — you will see them generated in Exercise 3.
 
 When ready, type:
