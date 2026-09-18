@@ -38,7 +38,7 @@ Ask the coding agent to deploy:
 deploy the agent
 ```
 
-The agent is packaged and deployed to SAP AI Core on the provided landscape. This takes **1–2 minutes**.
+The agent is packaged and deployed to SAP managed Joule Studio runtime on the provided landscape. This takes **1–2 minutes**.
 
 In the background, `jl solution validate` runs automatically — it checks your generated code against the deployer rules and reports any issues without you doing anything.
 
@@ -53,6 +53,7 @@ When deployment completes you will see a confirmation with the deployment endpoi
 
 Once deployed, test connectivity. You can do this in three ways:
 
+Option A - Joule Studio web UI: if you agent is in status integrating you can go to the agent file and test your agnet 
 **Option A — Joule Studio web UI:** Open the deployed agent in Joule Studio and start a conversation directly from there.
 
 **Option B — Coding agent:** Ask the coding agent:
