@@ -23,7 +23,7 @@ container:
       value: "1"
 ```
 
-> [!note] Why this matters
+> **Note — Why this matters**
 > With `IBD_TESTING=1` the agent runs against mock data instead of live S/4HANA APIs. This is the correct mode for this workshop — results are predictable and the exercise works regardless of whether the underlying S/4 services are fully provisioned on the landscape.
 >
 > Remove this flag only when you have a verified live landscape with all APIs reachable.
@@ -71,7 +71,7 @@ The solution ID is printed when deployment completes. The asset name matches the
 
 The agent should respond with a brief greeting in all three cases. If it times out, ask a session guide to check the deployment status.
 
-> [!note] Why A2A?
+> **Note — Why A2A?**
 > The A2A protocol is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Testing via `jl a2a message` confirms the agent endpoint is reachable independently of the Joule UI.
 
 ---

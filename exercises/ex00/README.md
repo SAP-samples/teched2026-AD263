@@ -2,7 +2,7 @@
 
 In this exercise you will open VS Code, create your working folder, log into the provided Joule Studio landscape, and launch the coding agent. This takes about 10 minutes.
 
-> [!note] Coding agent
+> **Note — Coding agent**
 > Depending on the landscape provided, the coding agent will be **Claude Code** (`claude`) or **opencode** (`opencode`). Both support the same IBD flow — every step in these exercises is identical regardless of which one is installed.
 
 ---
@@ -14,7 +14,7 @@ In this exercise you will open VS Code, create your working folder, log into the
 
 ![VS Code open with no folder](images/01_vscode_open.png)
 
-> [!note]
+> **Note**
 > VS Code is used as the primary IDE for this session. Any other IDE or a plain terminal works equally well with Joule Studio CLI.
 
 ## Step 0.2 — Create Your Working Folder

@@ -5,7 +5,7 @@ The coding agent is now implementing the solution from the specification. This t
 > [!tip]
 > If the coding agent pauses and waits for input, type `continue`.
 
-> [!note] IBD variance is normal
+> **Note — IBD variance is normal**
 > The generated code, file names, function names, and implementation choices will differ between participants — even with the same intent prompt. Some generations put risk scoring in `app/risk_scorer.py`, others inline in `agent.py`, others in a runtime skill. All of these are valid. The hunts below are designed to work regardless of which pattern your generation chose.
 
 ---
@@ -14,7 +14,7 @@ The coding agent is now implementing the solution from the specification. This t
 
 Work through the hunts below as files appear in the Explorer panel — use **Ctrl+P** (Cmd+P on Mac) to open files by name without navigating the tree.
 
-> [!note] Compare with your neighbour
+> **Note — Compare with your neighbour**
 > Your agent name, MCP server names, and threshold values may differ depending on how you answered the clarifying questions in Exercise 1. That is expected — every item below exists in every valid generation.
 
 ### Hunt 1 — `app/agent.py`
@@ -29,7 +29,7 @@ def get_model_name() -> str:
 
 - [ ] Found it. What model is set as primary in your file?
 
-> [!note]
+> **Note**
 > The `@agent_model` decorator exposes this setting in the Joule Studio Design View, so the model can be changed without touching the surrounding code. The same pattern applies to temperature and other config values via `@agent_config`.
 
 Find the OTel milestone logging. IBD instruments milestones inside a helper method (`_run_agent`) — never inside `stream()`. Look for a pattern like:
@@ -56,7 +56,7 @@ IBD can implement risk scoring in different ways — a Python file (`app/risk_sc
 - [ ] Found the HIGH / MEDIUM / LOW threshold values — what are they in your generation?
 - [ ] The thresholds are labeled `[Assumption]` not `[Confirmed Fact]` — why does that distinction matter?
 
-> [!note] Compare with your neighbour
+> **Note — Compare with your neighbour**
 > Different answers to the clarifying questions in Exercise 1 can produce different implementation choices here. Both a Python scorer and a skill-based scorer are valid — the labeling discipline is what matters.
 
 

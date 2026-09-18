@@ -2,7 +2,7 @@
 
 In this exercise you will submit your intent prompt to the IBD coding agent. The tool will analyze your intent, map it to SAP's Reference Business Architecture, and ask clarifying questions before generating the solution documents.
 
-> [!note] Scenario recap
+> **Note — Scenario recap**
 > You are a **Procurement Manager** responding to a supplier production halt. You need an agent that identifies at-risk purchase orders and scheduling agreements in SAP S/4HANA and scores their impact — with every output clearly labeled by data provenance. Full scenario description: [Session overview](../../README.md#scenario).
 
 ---
@@ -26,7 +26,7 @@ Rules the agent must follow:
 
 The IBD skill loads and begins the intent analysis pipeline.
 
-> [!note] Every IBD run looks different — that is expected
+> **Note — Every IBD run looks different — that is expected**
 > IBD uses an LLM to interpret your intent, so the exact wording of clarifying questions, the order of steps, and the generated document content will vary between runs and between participants. Screenshots in this guide are **illustrative only** — your session will not look identical. Focus on the checklists, not the screenshots.
 
 ![IBD skill running intent analysis](images/02_ibd_skill_running.png)
@@ -79,7 +79,7 @@ Once your intent is submitted, the IBD MCP server runs the following pipeline:
 | **API Discovery** | Discovers APIs from the available set: `CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001` |
 | **Intent Fit Score** | Scores how closely the proposed solution matches your requirement (target: ≥ 0.7) |
 
-> [!note] Low intent fit score?
+> **Note — Low intent fit score?**
 > If the score is below 0.7, check that SAP S/4HANA Public Cloud was named explicitly and that both APIs (POs and scheduling agreements) are in your intent statement.
 
 ## Step 1.3 — Review and Save `intent.md`

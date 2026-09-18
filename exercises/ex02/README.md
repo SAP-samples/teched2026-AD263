@@ -2,7 +2,7 @@
 
 In this exercise you will review the three documents IBD generates before writing any code: `intent.md`, `product-requirements-document.md`, and `specification.md`. Work through each checklist before issuing the next command.
 
-> [!note] Your agent, your choices
+> **Note — Your agent, your choices**
 > The generated documents reflect your exact input from Exercise 1. They may differ from the examples here — that is expected and intentional. Review the intent behind each checklist item, not the exact wording.
 >
 > **IBD variance is normal.** The document structure, section names, and content depth vary between runs and between participants — even with the same prompt. This is IBD working as designed: it adapts to your specific intent. Use the checklists below to verify the substance is correct, not to match the screenshots exactly.
@@ -77,7 +77,7 @@ IBD generates `product-requirements-document.md`. Open it from the Explorer pane
 - [ ] The composite risk scoring model (HIGH / MEDIUM / LOW) is described as a functional requirement
 
 
-> [!note]
+> **Note**
 > In a real project this is where business analysts and stakeholders would review and sign off on the PRD. For this session, review the requirements above and move on.
 
 When ready, type:
