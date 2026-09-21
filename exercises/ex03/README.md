@@ -1,6 +1,6 @@
 # Exercise 3 — Implementation & Code Review
 
-The coding agent is now implementing the solution from the specification. This takes **20–25 minutes**. Work through the steps below while it runs.
+The coding agent is now implementing the solution from the specification. This takes **10–20 minutes**. Work through the steps below while it runs.
 
 > **💡 Tip**
 > If the coding agent pauses and waits for input, type `continue`.
@@ -32,33 +32,78 @@ def get_model_name() -> str:
 > **Note**
 > The `@agent_model` decorator exposes this setting in the Joule Studio Design View, so the model can be changed without touching the surrounding code. The same pattern applies to temperature and other config values via `@agent_config`.
 
-Find the OTel milestone logging. IBD instruments milestones inside a helper method (`_run_agent`) — never inside `stream()`. Look for a pattern like:
+Find the OTel milestone logging. Look for `logger.info` calls that contain milestone markers like `M1.achieved` or `M5.achieved` — these track whether key pipeline steps succeeded or were skipped:
 
 ```python
-async def _run_agent(self, ...):
-    with tracer.start_as_current_span("..."):
-        logger.info("M1.achieved: ...")
-        ...
-
-async def stream(self, ...):
-    result = await self._run_agent(...)
-    yield result
+logger.info("[M1.achieved]: MCP tools loaded successfully — proceeding with agent")
+...
+logger.info("[M5.achieved]: Risk assessment report delivered to requestor")
 ```
 
 - [ ] Found milestone logging. How many milestones are instrumented?
-- [ ] Confirmed the OTel span is in `_run_agent`, not inside `stream` — why does that matter?
+- [ ] The span wraps the `execute()` method, not `stream()` — why does that matter for tracing parallel tool calls?
 
 ### Hunt 2 — Risk scoring (wherever your generation put it)
 
-IBD can implement risk scoring in different ways — a Python file (`app/risk_scorer.py`), a runtime skill (`app/skills/risk-scoring/SKILL.md`), or inline in `agent.py`. Find where yours ended up.
+IBD can implement risk scoring in different ways — a Python file (`app/tools/scoring_engine.py`), a runtime skill (`app/skills/risk-scoring/SKILL.md`), or inline in `agent.py`. Find where yours ended up.
 
 - [ ] Located the risk scoring logic — is it a Python file, a skill file, or inside `agent.py`?
 - [ ] Found the HIGH / MEDIUM / LOW threshold values — what are they in your generation?
-- [ ] The thresholds are labeled `[Assumption]` not `[Confirmed Fact]` — why does that distinction matter?
 
-> **Note — Compare with your neighbour**
-> Different answers to the clarifying questions in Exercise 1 can produce different implementation choices here. Both a Python scorer and a skill-based scorer are valid — the labeling discipline is what matters.
+The thresholds will look something like this if implemented as a Python tool:
 
+```python
+DELIVERY_HIGH_DAYS = int(os.getenv("DELIVERY_HIGH_DAYS", "14"))
+VALUE_HIGH_EUR     = float(os.getenv("VALUE_HIGH_EUR", "50000"))
+```
+
+Or like this if implemented as a runtime skill:
+
+```markdown
+## Scoring Thresholds [Assumption]
+- HIGH: delivery within 14 days AND open value ≥ €50k
+- MEDIUM: delivery within 30 days OR open value ≥ €10k
+- LOW: all other lines
+```
+
+- [ ] The thresholds are labeled `[Assumption]` — why does that distinction matter for the procurement manager reading the output?
+
+### Hunt 3 — Output labeling
+
+Find where `[Confirmed Fact]`, `[Assumption]`, and `[Recommendation]` labels are applied. This may be in `app/tools/labeling.py`, inline in `agent.py`, or in a runtime skill.
+
+```python
+def label_confirmed_fact(value, field_name=""):
+    return {"label": "[Confirmed Fact]", "field": field_name, "value": value}
+```
+
+- [ ] Found the labeling logic
+- [ ] Confirmed that API-retrieved values (PO number, supplier, delivery date) are labeled `[Confirmed Fact]`
+- [ ] Confirmed that scoring thresholds and geographic assumptions are labeled `[Assumption]`
+- [ ] Confirmed that suggested re-routing actions are labeled `[Recommendation]`
+
+### Hunt 4 — MCP tool indirection (`app/mcp_tools.py`)
+
+Find the file `app/mcp_tools.py`. It should be a thin wrapper — not the actual MCP connector:
+
+```python
+from sap_cloud_sdk.agentgateway import get_mcp_tools
+__all__ = ["get_mcp_tools"]
+```
+
+- [ ] Found it. Why does `agent_executor.py` import from `mcp_tools` instead of directly from `sap_cloud_sdk`?
+
+> **Note**
+> `mcp_tools.py` is the patch target in tests — `conftest.py` mocks `get_mcp_tools` here so tests never need a live Agent Gateway connection. Importing directly from the SDK would break the mock.
+
+### Hunt 5 — Tests
+
+Open the `tests/` folder inside your agent asset directory.
+
+- [ ] At least one test file per tool (`test_scoring_engine.py`, `test_labeling.py`, etc.)
+- [ ] An integration test (`test_integration.py`) that exercises the full pipeline without network calls
+- [ ] A `conftest.py` that patches `get_mcp_tools` so tests run offline
+- [ ] All tests pass
 
 > **💡 Finished early?**
 > Start the bonus while you wait: [Exercise 5 — Bonus Exercises](../ex05/README.md)

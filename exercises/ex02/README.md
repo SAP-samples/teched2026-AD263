@@ -23,13 +23,7 @@ IBD generates `intent.md` automatically after the clarifying questions in Exerci
 
 Scroll through the document — it covers business goals, milestones, RBA mapping, fit-gap analysis, and recommendations:
 
-![intent.md — terminal review output](images/01_intent_md_terminal_review.png)
-
-
-
-![intent.md — Key Milestones and Business Architecture (RBA)](images/04_intent_md_milestones_rba.png)
-
-![intent.md — Recommendations and Executive Summary](images/06_intent_md_recommendations.png)
+![intent.md open in VS Code — terminal review output with intent fit score](images/01_intent_md_terminal_review.png)
 
 > **💡 Refining intent**
 > If something important is missing, type a correction in the coding agent before proceeding. Example:
@@ -41,7 +35,7 @@ When you are satisfied, type in the coding agent to proceed:
 Continue with PRD
 ```
 
-![intent.md — agent confirms and proceeds to PRD generation](images/02_intent_md_open_in_editor.png)
+![intent.md reviewed — typing "Continue with PRD" in the coding agent](images/01_intent_reviewed_continue_with_prd.png)
 
 ---
 
@@ -66,7 +60,13 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 
 ## Step 2.2 — Review the PRD
 
-IBD generates `product-requirements-document.md`. Open it from the Explorer panel.
+IBD generates `product-requirements-document.md`. VS Code will prompt you to save it — click **Yes, allow all edits during this session**.
+
+![PRD generated — VS Code save prompt](images/02_prd_save_prompt.png)
+
+Open it from the Explorer panel and review the full document:
+
+![PRD open in VS Code editor — Product Purpose, Business Metrics, Solution Architecture](images/03_prd_open_in_editor.png)
 
 **Check the following:**
 
@@ -86,6 +86,8 @@ When ready, type:
 Create specification
 ```
 
+![PRD reviewed — typing "Create specification", terminal confirms PRD saved](images/04_prd_reviewed_create_spec_command.png)
+
 ---
 
 ## Step 2.3 — Review the Specification
@@ -102,16 +104,20 @@ IBD generates `specification.md` inside `specification/<your-agent-name>/`. Open
 > **⚠️ Unregistered API in the spec?**
 > If the spec lists any API **not** in the available list below, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent:   to Remove [API name] from the specification and only use APIs from the list. The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
 
-![specification.md — Runtime Fundamentals, Testing, ready to implement](images/12_spec_md_runtime_testing_ready.png)
-
-> **💡 MCP translation files**
-> Each MCP server entry in the spec references a `translation.json`. This file maps OpenAPI/EDMX endpoints to named tools the agent can call — you will see them generated in Exercise 3.
+![specification.md — API Discovery Results, file structure, ready to execute](images/05_spec_api_discovery_execute_command.png)
 
 When ready, type:
 
 ```
-Implement the solution
+Execute specification
 ```
+
+After execution, the full agent file structure is generated and the terminal confirms the spec is complete:
+
+![Specification complete — API Discovery Results open, full file structure in Explorer](images/06_spec_complete_file_structure.png)
+
+> **💡 MCP translation files**
+> Each MCP server entry in the spec references a `translation.json`. This file maps OpenAPI/EDMX endpoints to named tools the agent can call — you will see them generated in Exercise 3.
 
 ---
 

@@ -108,12 +108,6 @@ A browser window opens for you to authenticate. Once you confirm, the CLI stores
 jl init claude
 ```
 
-or, if opencode is your coding agent:
-
-```bash
-jl init opencode
-```
-
 `jl init` sets up the Joule Studio project in your current folder: it fetches the IBD skills into `.claude/skills/` and writes `.mcp.json` and `.claude/settings.local.json`. After it completes you will see a `.claude/` config directory in your Explorer panel.
 
 ![jl init complete — .claude/ skills tree visible in Explorer](images/08_jl_init_complete_skills_tree.png)

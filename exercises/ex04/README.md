@@ -1,6 +1,6 @@
 # Exercise 4 — Deploy & Test Your Agent
 
-In this exercise you will deploy your agent to SAP AI Core and run the full supplier disruption scenario via SAP Joule.
+In this exercise you will deploy your agent to Joule Studio and run the full supplier disruption scenario via Joule Work.
 
 ---
 

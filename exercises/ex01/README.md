@@ -24,18 +24,25 @@ Rules the agent must follow:
 
 > **💡 In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.**
 
+
+![IBD skill running intent analysis](images/02_ibd_skill_running.png)
+
 The IBD skill loads and begins the intent analysis pipeline.
 
 > **Note — Every IBD run looks different — that is expected**
 > IBD uses an LLM to interpret your intent, so the exact wording of clarifying questions, the order of steps, and the generated document content will vary between runs and between participants. Screenshots in this guide are **illustrative only** — your session will not look identical. Focus on the checklists, not the screenshots.
 
-![IBD skill running intent analysis](images/02_ibd_skill_running.png)
 
 ---
 
 ## Step 1.2 — Answer Clarifying Questions
 
 IBD will ask a few follow-up questions before generating the intent document. Questions vary by run — use this cheat sheet to answer quickly and confidently.
+
+Example: what does success look like in measurable terms:
+
+![IBD asking success metrics question — numbered list of goals to select](images/03_ibd_success_metrics_question.png)
+
 
 ---
 
@@ -66,6 +73,15 @@ IBD may show a numbered list of goals — pick the ones that fit. For this scena
 > **💡 Tip**
 > Not sure about a question? Give a short answer and move on — you will review the full `intent.md` document before the PRD is generated, and you can ask the coding agent to adjust anything that doesn't look right.
 
+After answering all questions, IBD shows a summary of your answers for review:
+
+![IBD reviewing answers before writing intent.md — suggested defaults shown](images/04_ibd_review_answers_prompt.png)
+
+IBD then presents a Business Goals & Success Criteria table and asks you to confirm before proceeding:
+
+![IBD confirm goals and success criteria table — confirm or edit before intent.md is written](images/05_ibd_confirm_goals_table.png)
+
+---
 
 ## What is Happening Behind the Scenes
 
@@ -86,15 +102,13 @@ Once your intent is submitted, the IBD MCP server runs the following pipeline:
 
 When the analysis completes, IBD generates an `intent.md` file in your project folder. VS Code will prompt you to save it — click **Yes, allow all edits during this session**.
 
-![intent.md generated — VS Code save prompt](images/04_intent_md_generated_save_prompt.png)
+![intent.md generated — VS Code save prompt](images/06_intent_md_save_prompt.png)
 
 Review the intent analysis summary in the terminal — check the RBA mapping, API discovery, and intent fit score (target: ≥ 0.7):
 
-![Intent analysis output — RBA mapping, APIs, intent fit score](images/05_intent_analysis_output.png)
-
 Then open `intent.md` in the editor to read the full structured document:
 
-![intent.md open in VS Code editor](images/06_intent_md_open_in_editor.png)
+![intent.md open in VS Code editor with intent fit score and key findings in terminal](images/07_intent_md_open_in_editor.png)
 
 ---
 

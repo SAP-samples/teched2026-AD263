@@ -50,7 +50,7 @@ By the end of this session your agent will:
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │               Supplier Disruption Response Agent                        │
-│                    LangGraph · SAP AI Core                              │
+│                    LangGraph · Joule Studio                             │
 └──────────────────────────┬──────────────────────────────────────────────┘
                            │
       ┌────────────────────▼────────────────────┐
@@ -96,10 +96,6 @@ By the end of this session your agent will:
 | `sap-s4-scheduling-agreements-mcp-server` | SAP S/4HANA Public Cloud | `API_SCHED_AGRMT_PROCESS_SRV` | Read |
 
 Both MCP servers are generated during the exercise using the MCP Builder in Joule Studio.
-
-> **Note — Tenant API registration**
->
-> Only `CE_PURCHASEORDER_0001` and `API_SCHED_AGRMT_PROCESS_SRV` are registered on the workshop tenant. If IBD proposes additional APIs (Preferred Supplier List, Business Partner, or any Ariba API), they are not available in this environment and must be removed before deployment. Exercise 2 shows you how to catch this.
 
 ---
 
