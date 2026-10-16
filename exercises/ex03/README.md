@@ -10,6 +10,21 @@ The coding agent is now implementing the solution from the specification. This t
 
 ---
 
+## Hunts in this exercise
+
+> **💡 How to jump to a hunt**
+> Press **Cmd+F** (Mac) or **Ctrl+F** (Windows/Linux) to open search, then type the hunt name — for example `Hunt 3` — to jump straight to it.
+
+| Hunt | What you find |
+|------|---------------|
+| [Hunt 1](#hunt-1----appagentpy) | Model config & milestone logging in `agent.py` |
+| [Hunt 2](#hunt-2----risk-scoring-wherever-your-generation-put-it) | Risk scoring logic and HIGH/MEDIUM/LOW thresholds |
+| [Hunt 3](#hunt-3----output-labeling) | `[Confirmed Fact]` / `[Assumption]` / `[Recommendation]` labels |
+| [Hunt 4](#hunt-4----mcp-tool-indirection-appmcp_toolspy) | MCP tool indirection in `mcp_tools.py` |
+| [Hunt 5](#hunt-5----tests) | Test structure and offline mocking |
+
+---
+
 ## Step 3.1 — Code Hunt
 
 Work through the hunts below as files appear in the Explorer panel — use **Ctrl+P** (Cmd+P on Mac) to open files by name without navigating the tree.
