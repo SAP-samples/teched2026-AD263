@@ -1,29 +1,10 @@
-# Exercise 5 — Bonus Exercises
+# Exercise 5 — Bonus Exercise
 
-Congratulations on completing the main scenario! If you have time remaining, choose one of the bonus exercises below. Each extends the agent in a different direction.
-
----
-
-## Bonus A — Build an n8n Workflow to Trigger Your Agent
-
-**What you build:** Connect your supplier disruption agent to an n8n workflow so it can be triggered by an automated system event rather than a manual Joule message.
-
-**Scenario:** Instead of a procurement manager typing a message, a logistics monitoring system detects a disruption event and fires an A2A call directly to your agent.
-
-Go back to the coding agent and type:
-
-```
-Design an n8n workflow that calls my agent when a supplier disruption
-event is detected. The workflow should pass the event type, affected country,
-and disruption date as input.
-```
-
-Review the generated workflow definition, then ask a session guide for access to the pre-configured n8n instance to test it.
-
+Congratulations on completing the main scenario! If you have time remaining, try the bonus exercise below.
 
 ---
 
-## Bonus B — PRD as Input (Different Use Case)
+## Bonus — PRD as Input (Different Use Case)
 
 **What you build:** Instead of starting from an intent prompt, you provide a pre-written PRD to drive a completely different agent — demonstrating that the IBD flow works from any starting point.
 
