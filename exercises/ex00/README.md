@@ -7,9 +7,24 @@ In this exercise you will open VS Code, create your working folder, log into the
 
 ---
 
-## Step 0.1 — Open VS Code
+## Step 0.1 — Prepare Your Laptop
 
-1. Click **Visual Studio Code** on the desktop (or taskbar)
+> **Note**
+> This step is specific to this TechEd session. The LMU script configures Claude Code to reach the LLM through the venue's Hyperspace proxy. Do this before you open VS Code or any terminal.
+
+Your session laptop needs a one-time setup:
+
+1. Press the **Windows / Start** key
+2. Type **`ad263`**
+3. Under **Apps**, run **`LMU_AD263`** and let it finish
+
+![Searching for ad263 in the Start menu and running LMU_AD263](images/00_lmu_ad263.png)
+
+> **⚠️ If `LMU_AD263` does not appear or the setup fails, raise your hand before continuing.**
+
+---
+
+## Step 0.2 — Open VS Code
 2. If a "Sign in" or welcome page opens, close it
 
 ![VS Code open with no folder](images/01_vscode_open.png)
@@ -17,7 +32,7 @@ In this exercise you will open VS Code, create your working folder, log into the
 > **Note**
 > VS Code is used as the primary IDE for this session. Any other IDE or a plain terminal works equally well with Joule Studio CLI.
 
-## Step 0.2 — Create Your Working Folder
+## Step 0.3 — Create Your Working Folder
 
 1. In VS Code, open the Explorer panel on the left sidebar (folder icon, or `Ctrl+Shift+E` on Windows · `Cmd+Shift+E` on Mac)
 2. Click **Open Folder**
@@ -34,7 +49,7 @@ You should now see an empty Explorer panel with the folder name at the top left.
 > **💡 Tip**
 > If VS Code asks "Do you trust the authors of the files in this folder?" — click **Yes, I trust the authors**.
 
-## Step 0.3 — Open a Terminal
+## Step 0.4 — Open a Terminal
 
 1. In VS Code, open a terminal:
    - Menu: `…` → **Terminal** → **New Terminal**
@@ -43,7 +58,48 @@ You should now see an empty Explorer panel with the folder name at the top left.
 
 ![Terminal open inside the project folder](images/04_terminal_open.png)
 
-## Step 0.4 — Verify the CLI
+## Step 0.5 — Set Up the Python Environment
+
+The agent uses **liteLLM**, which requires Python 3.13. The machines have Python 3.14 installed system-wide, which is incompatible with liteLLM — deployment will fail without this step.
+
+Run the following to install Python 3.13 and activate a virtual environment:
+
+```powershell
+winget install Python.Python.3.13 --scope user
+```
+
+> **Note — winget will ask you to agree to terms**
+> When prompted `Do you agree to all the source agreements terms? [Y] Yes [N] No` — type **Y** and press Enter. If Python 3.13 is already present, winget will confirm it and move on.
+
+Then verify Python 3.13 is available:
+
+```powershell
+py -3.13 --version
+```
+
+It should print `Python 3.13.x`. If it does not, run the fallback installer:
+
+```powershell
+curl -o python313.exe https://www.python.org/ftp/python/3.13.15/python-3.13.15-amd64.exe
+.\python313.exe /quiet InstallAllUsers=0 PrependPath=0
+py -3.13 --version
+```
+
+Now create and activate the virtual environment:
+
+```powershell
+py -3.13 -m venv .venv
+.venv\Scripts\activate
+```
+
+After `activate`, your terminal prompt shows `(.venv)` — Python 3.13 is now active for this session.
+
+> **⚠️ Do not close this terminal**
+> The virtual environment is active only in this terminal session. If you open a new terminal later, run `.venv\Scripts\activate` again before deploying.
+
+---
+
+## Step 0.6 — Verify the CLI
 
 Run:
 
@@ -69,7 +125,7 @@ jl v
 
 ![jl version output](images/06b_jl_version.png)
 
-## Step 0.5 — Log In
+## Step 0.7 — Log In
 
 The `jl` CLI authenticates against your **Joule Studio** instance. Before running `jl login`, get your personal Sign-in URL from the Joule Studio web UI:
 
@@ -102,7 +158,7 @@ A browser window opens for you to authenticate. Once you confirm, the CLI stores
 > **⚠️ Login expired?**
 > If you see `401 Unauthorized` at any later step, open a new terminal tab and run `jl login` again before retrying.
 
-## Step 0.6 — Initialize the Project
+## Step 0.8 — Initialize the Project
 
 ```bash
 jl init claude
@@ -115,7 +171,7 @@ jl init claude
 > **⚠️ Do not modify the IBD skills**
 > The files fetched into `.claude/skills/` encode the conventions the generated solution needs for deployment. Do not edit them. Customise your agent through its own code, instructions, and tools — not through the skills that generate it.
 
-## Step 0.7 — Launch the Coding Agent
+## Step 0.9 — Launch the Coding Agent
 
 ```bash
 claude
