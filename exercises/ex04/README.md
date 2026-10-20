@@ -69,7 +69,11 @@ our best option based on scorecard rating?
 
 Your solution is already visible in the Joule Studio Web UI — watch its status change to **Running**. Once it does, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
 
-Use any of the five prompts above to run your first test against the deployed agent.
+Start with a simple greeting to confirm the agent is responsive:
+
+```
+Hi, what can you do?
+```
 
 ---
 
