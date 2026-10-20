@@ -69,10 +69,12 @@ our best option based on scorecard rating?
 
 Your solution is already visible in the Joule Studio Web UI — watch its status change to **Running**. Once it does, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
 
-Start with a simple greeting to confirm the agent is responsive:
+Start with the core disruption scenario:
 
 ```
-Hi, what can you do?
+Our supplier in Taiwan has announced a factory fire.
+The disruption started on 2024-03-01. What purchase orders and scheduling
+agreements are at risk?
 ```
 
 ---
