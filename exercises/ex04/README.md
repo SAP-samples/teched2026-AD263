@@ -20,17 +20,11 @@ Before packaging, `jl solution validate` runs automatically. It checks 9 rules a
 
 ---
 
-### While you wait — generate test prompts locally
+### While you wait — explore your solution in the Web UI
 
-While deployment is in progress, use this time to prepare your test prompts. The mock data (enabled via `IBD_TESTING=1` in your `asset.yaml`) uses a fixed dataset, so the prompts below are calibrated to it and will give you predictable, verifiable results.
+While deployment is running, switch to your browser and navigate to Joule Studio. Your solution will appear there as it registers — open the agent and start testing it against the mocked data. No terminal needed.
 
-Ask the coding agent:
-
-```
-generate 5 prompts to test the agent locally
-```
-
-Or use these ready-made prompts — each targets a different capability of the agent:
+Use these prompts to explore the agent's capabilities:
 
 **1. Full triage — the core use case**
 ```
