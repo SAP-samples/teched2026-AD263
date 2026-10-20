@@ -67,7 +67,7 @@ our best option based on scorecard rating?
 
 ## Step 4.2 — Test the Deployed Agent in the Web UI
 
-Once your solution appears in the Joule Studio Web UI, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
+Once your solution appears in the Joule Studio Web UI and its status shows **Running**, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
 
 Use any of the five prompts above to run your first test against the deployed agent.
 
