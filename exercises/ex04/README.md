@@ -4,32 +4,6 @@ In this exercise you will deploy your agent to Joule Studio and run the full sup
 
 ---
 
-## Step 4.0 — Configure Mock Data Mode
-
-Before deploying, open the agent's `asset.yaml`. You'll find it inside the generated agent folder:
-
-```
-assets/<your-agent-name>/asset.yaml
-```
-
-Add an `env` block under the `container:` section:
-
-```yaml
-container:
-  buildPath: .
-  port: 5000
-  env:
-    - name: IBD_TESTING
-      value: "1"
-```
-
-> **Note — Why this matters**
-> With `IBD_TESTING=1` the agent runs against mock data instead of live S/4HANA APIs. This is the correct mode for this workshop — results are predictable and the exercise works regardless of whether the underlying S/4 services are fully provisioned on the landscape.
->
-> Remove this flag only when you have a verified live landscape with all APIs reachable.
-
----
-
 ## Step 4.1 — Validate and Deploy
 
 Ask the coding agent to deploy:
@@ -38,31 +12,72 @@ Ask the coding agent to deploy:
 deploy the agent
 ```
 
-The agent is packaged and deployed to SAP managed Joule Studio runtime on the provided landscape. This takes **1–2 minutes**.
+The agent is packaged and deployed to SAP managed Joule Studio runtime on the provided landscape. **Deployment includes full end-to-end integration — expect it to take several minutes.**
 
-In the background, `jl solution validate` runs automatically — it checks your generated code against the deployer rules and reports any issues without you doing anything.
+Before packaging, `jl solution validate` runs automatically. It checks 9 rules across your solution — from confirming `solution.yaml` exists and is schema-valid, to verifying every asset folder has a proper `asset.yaml`, every file reference resolves, and every agent uses a known LLM model. Errors block the deploy; warnings are advisory. If validation fails, the output tells you exactly which rule failed and what to fix.
 
-When deployment completes you will see a confirmation with the deployment endpoint URL.
-
-> **💡 Bonus: Monitor your agent in the web UI**
-> You can open Joule Studio in your browser while the agent deploys — it will appear there with the same folder structure once registered. There you can also share the solution with a business user for review.
+**While the deployment is running — open your browser and navigate to Joule Studio.** Your solution will appear in the Web UI as it registers. Watch for it there — once it shows up you can open it and observe its status directly.
 
 ---
 
-## Step 4.2 — Verify the Agent is Reachable
+### While you wait — generate test prompts locally
 
-Once deployed, test connectivity. You can do this in three ways:
+While deployment is in progress, use this time to prepare your test prompts. The mock data (enabled via `IBD_TESTING=1` in your `asset.yaml`) uses a fixed dataset, so the prompts below are calibrated to it and will give you predictable, verifiable results.
 
-Option A - Joule Studio web UI: if you agent is in status integrating you can go to the agent file and test your agnet 
-**Option A — Joule Studio web UI:** Open the deployed agent in Joule Studio and start a conversation directly from there.
-
-**Option B — Coding agent:** Ask the coding agent:
+Ask the coding agent:
 
 ```
-Use Joule to send a 'hi' to my agent.
+generate 5 prompts to test the agent locally
 ```
 
-**Option C — A2A CLI:** Every deployed agent exposes the A2A protocol endpoint. Open a new terminal tab and send a message directly:
+Or use these ready-made prompts — each targets a different capability of the agent:
+
+**1. Full triage — the core use case**
+```
+Supplier TW-VENDOR-001 just had a factory fire in Taiwan. Show me all their open
+scheduling agreements, score each item by risk, and find me preferred alternatives.
+```
+
+**2. Single agreement deep-dive**
+```
+Give me a full risk breakdown for scheduling agreement 5500000001, including the
+delivery date, open quantity, and total exposure value.
+```
+
+**3. Alternative supplier check**
+```
+For material group L001 — Electronic Components — who are our preferred alternative
+suppliers and what are their evaluation scores?
+```
+
+**4. Geographic risk filter**
+```
+Which of our active scheduling agreements have delivery addresses in Taiwan?
+Score them and tell me which ones are HIGH risk.
+```
+
+**5. Executive summary**
+```
+We have a supply disruption with TW-VENDOR-001. Give me a one-page summary: how many
+agreements are at risk, what's the total open value in EUR, and which alternative is
+our best option based on scorecard rating?
+```
+
+---
+
+## Step 4.2 — Test the Deployed Agent in the Web UI
+
+Once your solution appears in the Joule Studio Web UI, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
+
+Use any of the five prompts above to run your first test against the deployed agent.
+
+---
+
+## Step 4.3 — Send A2A Messages from the Terminal
+
+Come back to the terminal and send messages via the A2A protocol. Every deployed agent exposes an A2A endpoint — this is the same path an n8n workflow or another agent would use to call yours.
+
+Open a new terminal tab and run:
 
 ```bash
 jl a2a message "hi" --solution <your-solution-id> --asset <your-agent-name>
@@ -70,14 +85,14 @@ jl a2a message "hi" --solution <your-solution-id> --asset <your-agent-name>
 
 The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
 
-The agent should respond with a brief greeting in all three cases. If it times out, ask a session guide to check the deployment status.
+The agent should respond with a brief greeting. If it times out, ask a session guide to check the deployment status.
 
 > **Note — Why A2A?**
-> The A2A protocol is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Testing via `jl a2a message` confirms the agent endpoint is reachable independently of the Joule UI.
+> Testing via `jl a2a message` confirms the agent endpoint is reachable independently of the Joule UI — the same verification a machine-to-machine caller would do.
 
 ---
 
-## Step 4.3 — Run the Disruption Scenario
+## Step 4.4 — Run the Disruption Scenario
 
 Send the full test message:
 
