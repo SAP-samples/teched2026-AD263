@@ -24,7 +24,13 @@ Before packaging, `jl solution validate` runs automatically. It checks 9 rules a
 
 While deployment is running, switch to your browser and navigate to Joule Studio. Your solution will appear there as it registers — open the agent and start testing it against the mocked data. No terminal needed.
 
-Use these prompts to explore the agent's capabilities:
+Ask the coding agent in the Web UI to generate prompts tailored to your mocked data — the sample prompts below use specific IDs that may differ in your dataset:
+
+```
+Please create 5 test prompts to test the agent against my mocked data
+```
+
+Or use the prompts below as inspiration — adapt them to the vendor IDs and agreement numbers in your own dataset:
 
 **1. Full triage — the core use case**
 ```
