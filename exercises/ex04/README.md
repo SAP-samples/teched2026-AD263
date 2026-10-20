@@ -65,42 +65,9 @@ our best option based on scorecard rating?
 
 ---
 
-## Step 4.2 — Test the Deployed Agent in the Web UI
+## Step 4.2 — Run the Disruption Scenario in the Web UI
 
-Your solution is already visible in the Joule Studio Web UI — watch its status change to **Running**. Once it does, open it and start a conversation directly from there. This confirms the agent is live and the end-to-end integration is working.
-
-Start with the core disruption scenario:
-
-```
-Our supplier in Taiwan has announced a factory fire.
-The disruption started on 2024-03-01. What purchase orders and scheduling
-agreements are at risk?
-```
-
----
-
-## Step 4.3 — Send A2A Messages from the Terminal
-
-Come back to the terminal and send messages via the A2A protocol. Every deployed agent exposes an A2A endpoint — this is the same path an n8n workflow or another agent would use to call yours.
-
-Open a new terminal tab and run:
-
-```bash
-jl a2a message "hi" --solution <your-solution-id> --asset <your-agent-name>
-```
-
-The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
-
-The agent should respond with a brief greeting. If it times out, ask a session guide to check the deployment status.
-
-> **Note — Why A2A?**
-> Testing via `jl a2a message` confirms the agent endpoint is reachable independently of the Joule UI — the same verification a machine-to-machine caller would do.
-
----
-
-## Step 4.4 — Run the Disruption Scenario
-
-Send the full test message:
+Your solution is already visible in the Joule Studio Web UI — watch its status change to **Running**. Once it does, open the agent and send the disruption scenario:
 
 ```
 Our supplier in Taiwan has announced a factory fire.
@@ -132,6 +99,34 @@ Work through this checklist:
 
 > **💡 Use OTEL traces to debug**
 > If the agent skips a milestone or produces unexpected output, open the **Tracing** tab in Joule Studio — each span shows which tool was called, with what inputs, and how long it took. This is the fastest way to identify instruction drift or a misconfigured tool.
+
+---
+
+## Step 4.3 — Optional: Try Other Interfaces
+
+Your agent is now live and reachable from multiple surfaces. Pick one or try all three:
+
+**Option A — A2A via CLI**
+
+Open a new terminal tab and send the disruption scenario directly:
+
+```bash
+jl a2a message "Our supplier in Taiwan has announced a factory fire. The disruption started on 2024-03-01. What purchase orders and scheduling agreements are at risk?" --solution <your-solution-id> --asset <your-agent-name>
+```
+
+The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
+
+**Option B — Joule Work conversation**
+
+Open SAP Joule Work and tag your agent by its asset ID:
+
+```
+@<your-agent-name> Our supplier in Taiwan has announced a factory fire.
+The disruption started on 2024-03-01. What purchase orders and scheduling agreements are at risk?
+```
+
+> **Note — Why this matters**
+> A2A is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Joule Work is the business-user surface. Testing both confirms your agent works end-to-end across all entry points.
 
 ---
 
