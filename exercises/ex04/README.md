@@ -16,7 +16,7 @@ The agent is packaged and deployed to SAP managed Joule Studio runtime on the pr
 
 Before packaging, `jl solution validate` runs automatically. It checks 9 rules across your solution — from confirming `solution.yaml` exists and is schema-valid, to verifying every asset folder has a proper `asset.yaml`, every file reference resolves, and every agent uses a known LLM model. Errors block the deploy; warnings are advisory. If validation fails, the output tells you exactly which rule failed and what to fix.
 
-**While the deployment is running — open your browser and navigate to Joule Studio.** Your solution will appear in the Web UI as it registers. Watch for it there — once it shows up you can open it and observe its status directly.
+**While the deployment is running — open Joule Studio at [https://747391938.eu10.sapdas.cloud.sap/new/](https://747391938.eu10.sapdas.cloud.sap/new/) (credentials provided by your facilitator).** Your solution will appear in the Web UI as it registers. Watch for it there — once it shows up you can open it and observe its status directly.
 
 ![Solution appears in Joule Studio Web UI](images/01_solution_in_web_ui.png)
 
@@ -24,7 +24,7 @@ Before packaging, `jl solution validate` runs automatically. It checks 9 rules a
 
 ### While you wait — explore your solution in the Web UI
 
-While deployment is running, switch to your browser and navigate to Joule Studio. Your solution will appear there as it registers — open the agent and start testing it against the mocked data. No terminal needed.
+While deployment is running, switch to Joule Studio in your browser. Your solution will appear there as it registers — open the agent and start testing it against the mocked data. No terminal needed.
 
 Ask the coding agent in the Web UI to generate prompts tailored to your mocked data — the sample prompts below use specific IDs that may differ in your dataset:
 

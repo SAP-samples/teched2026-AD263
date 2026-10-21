@@ -129,7 +129,7 @@ jl v
 
 The `jl` CLI authenticates against your **Joule Studio** instance. Before running `jl login`, get your personal Sign-in URL from the Joule Studio web UI:
 
-1. Open Joule Studio in your browser
+1. Open Joule Studio at **[https://747391938.eu10.sapdas.cloud.sap/new/](https://747391938.eu10.sapdas.cloud.sap/new/)** — use the credentials provided by your facilitator.
 
 ![Joule Studio home](images/05b_joule_studio_home.png)
 
