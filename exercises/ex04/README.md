@@ -18,6 +18,8 @@ Before packaging, `jl solution validate` runs automatically. It checks 9 rules a
 
 **While the deployment is running — open your browser and navigate to Joule Studio.** Your solution will appear in the Web UI as it registers. Watch for it there — once it shows up you can open it and observe its status directly.
 
+![Solution appears in Joule Studio Web UI](images/01_solution_in_web_ui.png)
+
 ---
 
 ### While you wait — explore your solution in the Web UI
@@ -29,6 +31,8 @@ Ask the coding agent in the Web UI to generate prompts tailored to your mocked d
 ```
 Please create 5 test prompts to test the agent against my mocked data
 ```
+
+![Ask coding agent in Web UI to generate prompts](images/02_ask_coding_agent_for_prompts.png)
 
 Or use the prompts below as inspiration — adapt them to the vendor IDs and agreement numbers in your own dataset:
 
@@ -63,6 +67,8 @@ agreements are at risk, what's the total open value in EUR, and which alternativ
 our best option based on scorecard rating?
 ```
 
+![Send prompt to agent against mocked data](images/03_send_prompt_mocked_data.png)
+
 ---
 
 ## Step 4.2 — Run the Disruption Scenario in the Web UI
@@ -74,6 +80,8 @@ Our supplier in Taiwan has announced a factory fire.
 The disruption started on 2024-03-01. What purchase orders and scheduling
 agreements are at risk?
 ```
+
+![Disruption scenario sent to deployed agent](images/04_disruption_scenario_sent.png)
 
 ### What to look for in the response
 
@@ -96,6 +104,8 @@ Work through this checklist:
 **M4 — Consolidated Risk Report**
 - [ ] Risk-scored exposure summary presented with all items labeled `[Confirmed Fact]` or `[Assumption]`
 - [ ] Recommended actions labeled `[Recommendation]`
+
+![Disruption scenario response with risk-scored report](images/05_disruption_scenario_response.png)
 
 > **💡 Use OTEL traces to debug**
 > If the agent skips a milestone or produces unexpected output, open the **Tracing** tab in Joule Studio — each span shows which tool was called, with what inputs, and how long it took. This is the fastest way to identify instruction drift or a misconfigured tool.
