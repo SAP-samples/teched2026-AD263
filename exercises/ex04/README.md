@@ -24,6 +24,20 @@ Before packaging, `jl solution validate` runs automatically. It checks 9 rules a
 
 ### While you wait — explore your solution in the Web UI
 
+#### What just happened: Joule Studio runtime
+
+You build it. We run it. Joule Studio runtime provides the operational foundation to build, deploy, observe, and scale enterprise AI applications and agents, delivering trusted guardrails, integration, and extensibility. While you own the AI logic — the intent, the rules, the risk appetite, the business value — we own the runtime: from infrastructure to lifecycle to integration.
+
+**Trusted guardrails.** Agents run in ephemeral, sandboxed containers with no persistent state or cross-tenant access, enforcing strict isolation at execution time. Agent lifecycle management — versioning, start, stop, and rollback — is handled through the runtime, ensuring every agent instance meets the same quality, security, and lifecycle standard. SAP's own agents run on this same managed runtime, discoverable and activatable through the SAP Discovery Center.
+
+**Trusted integration.** Deployment is fully automated through a pipeline into Joule Studio runtime — no Kubernetes management, no manual infrastructure provisioning required. Out-of-the-box OpenTelemetry instrumentation delivers traces, metrics, and logs from day one, with AI actions consumption surfaced as a transparent cost metric for clear spend visibility. SAP handles provisioning, identity management, scaling, availability, and upgrades — the full operational layer.
+
+**Trusted extensibility.** You can tailor agent behavior to your business context without touching the underlying agent code: Instruction extensions to adjust language, apply business policies, reorder results, or add clarification steps. Hooks (powered by n8n) to inject custom logic before or after agent execution: access checks, downstream system updates, approvals, or notifications — including connections to non-SAP systems via APIs and MCPs.
+
+![Joule Studio Runtime: Agent flow](images/runtime_agent_flow.jpg)
+
+---
+
 While deployment is running, switch to Joule Studio in your browser. Your solution will appear there as it registers — open the agent and start testing it against the mocked data. No terminal needed.
 
 Ask the coding agent in the Web UI to generate prompts tailored to your mocked data — the sample prompts below use specific IDs that may differ in your dataset:
