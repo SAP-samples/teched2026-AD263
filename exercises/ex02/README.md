@@ -60,6 +60,8 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 > For this workshop, stick to **`CE_PURCHASEORDER_0001`** — the one API all participants have access to. If IBD suggests anything else, redirect it using the guidance in Steps 2.2–2.3.
 >
 > If your deployed agent returns a 403 on the alternative supplier lookup, that's expected — see [TS-04](../../troubleshooting/README.md#ts-04--403-forbidden-on-alternative-supplier-lookup) for details.
+>
+> If your agent was generated with the On-Premise API (`API_PURCHASEORDER_PROCESS_SRV`) instead of the Cloud Edition, it will fail at runtime with an Internal Server Error — see [TS-06](../../troubleshooting/README.md#ts-06--agent-execution-error-internal-server-error) for the fix.
 
 
 ## Step 2.2 — Review the PRD
