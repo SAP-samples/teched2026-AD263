@@ -126,6 +126,8 @@ You create everything from scratch using the IBD (Intent-Based Development) flow
 
 Start with [Exercise 0 →](exercises/ex00/README.md)
 
+If you run into issues, see the [Troubleshooting guide →](troubleshooting/README.md)
+
 ---
 
 ## Learning Objectives
