@@ -8,6 +8,7 @@ Common issues encountered during the AD263 workshop, with root causes and fixes.
 | [TS-02](#ts-02--testing-overview-shows-no-test-reports) | Testing Overview shows no test reports | Exercise 3 & 4 — fast-track participants |
 | [TS-03](#ts-03--deployment-stuck-on-integrating) | Deployment stuck on "Integrating" | Exercise 4 — after deploy |
 | [TS-04](#ts-04--403-forbidden-on-alternative-supplier-lookup) | 403: Unable to retrieve alternative supplier information | Exercise 4 — agent response |
+| [TS-05](#ts-05--agent-unavailable-on-first-joule-work-run) | Agent unavailable on first Joule Work run | Exercise 4 — Step 4.3 Option B |
 
 ---
 
@@ -132,3 +133,23 @@ Your agent attempted to call an API (such as the SAP Sourcing Supplier List) tha
 **During the workshop:** This is expected on the shared workshop tenant — not all APIs are authorised for all users. The agent still completes the PO triage and risk scoring correctly. The alternative supplier section will show "no data available" or a 403 message — this does not break the exercise. Continue to the next step.
 
 **In real life:** Work with your S/4HANA administrator to assign the correct authorisation roles for the API. Alternatively, remove the API from `asset.yaml` and update the agent instructions to handle the missing data gracefully (e.g. always return "No alternative supplier found in PO history" when the API is unavailable).
+
+---
+
+## TS-05 — Agent unavailable on first Joule Work run
+
+### What you see
+
+You open Joule Work, tag your agent with `@your-asset-id`, and send the disruption prompt — but instead of a response from your agent, Joule Work replies:
+
+> *It looks like you've addressed @your-agent-name, but this agent isn't currently available or configured in my environment.*
+
+![Joule Work — agent unavailable error on first run](images/ts05_joule_work_agent_unavailable.png)
+
+### Root cause
+
+Even after your agent status shows **Running** in Joule Studio, the first request in a new Joule Work session may fail because the agent's registration hasn't fully propagated to the Joule Work routing layer yet. This is a session cache issue — it resolves on re-login.
+
+### Fix
+
+Log out of Joule Work completely, then log back in. After a fresh login, tag the agent again with `@your-asset-id` — the agent will be available and respond correctly.

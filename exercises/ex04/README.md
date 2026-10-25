@@ -163,15 +163,23 @@ The solution ID is printed when deployment completes. The asset name matches the
 
 **Option B — Joule Work conversation**
 
-Open SAP Joule Work and tag your agent by its asset ID:
+First, find your agent's Asset ID. In Joule Studio, go to **Manage → Overview** and look at the asset table — copy the Asset ID next to your AI Agent (it looks like `your-agent-name-xxxxx`):
+
+![Joule Studio Manage Overview — Asset ID column with @ symbol highlighted](images/06_joule_work_asset_id.png)
+
+Open SAP Joule Work, start a new conversation, type `@` and paste the Asset ID, then add the prompt:
 
 ```
-@<your-agent-name> Supplier USSU_V8003 has announced a production halt.
+@<your-asset-id> Supplier USSU_V8003 has announced a production halt.
 Triage all their open purchase orders.
 ```
 
+![Joule Work — successful agent response with supply disruption impact report](images/07_joule_work_success.png)
+
 > **Note — Why this matters**
 > A2A is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Joule Work is the business-user surface. Testing both confirms your agent works end-to-end across all entry points.
+
+> **First run not working?** See [TS-05 — Agent unavailable on first Joule Work run](../../troubleshooting/README.md#ts-05--agent-unavailable-on-first-joule-work-run)
 
 ---
 
