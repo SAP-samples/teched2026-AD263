@@ -165,18 +165,10 @@ jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all 
 
 **Where to find the values:**
 
-| Value | Where to look |
-|---|---|
-| `--solution` | Browser URL bar on the **Manage → Overview** page, or in `deploy_result.json` at the root of your project |
-| `--asset` | **Asset Name** column in the Overview asset table, or `metadata.name` in `assets/<folder>/asset.yaml` |
-
-![Joule Studio Overview — Solution ID in URL bar and Asset Name in asset table](images/10_a2a_solution_id_webui.png)
-
-`deploy_result.json` and `asset.yaml` show the same values in VS Code:
-
-![deploy_result.json showing solution_id](images/08_a2a_deploy_result_json.png)
-
-![asset.yaml with metadata.name highlighted](images/09_a2a_asset_yaml_name.png)
+| Value | Web UI | Agent code |
+|---|---|---|
+| `--solution` | Browser URL bar on **Manage → Overview** ![Solution ID in URL bar](images/10_a2a_solution_id_webui.png) | `deploy_result.json` at the root of your project ![deploy_result.json showing solution_id](images/08_a2a_deploy_result_json.png) |
+| `--asset` | **Asset Name** column in the Overview asset table (same screenshot above) | `metadata.name` in `assets/<folder>/asset.yaml` ![asset.yaml with metadata.name highlighted](images/09_a2a_asset_yaml_name.png) |
 
 > **Don't want to look up IDs?** Just ask the coding agent — it reads the files itself:
 > ```
