@@ -50,6 +50,11 @@ Please create 5 test prompts to test the agent against my mocked data
 
 Or use the prompts below as inspiration — adapt them to the vendor IDs and agreement numbers in your own dataset:
 
+> **Note — fast-track participants**
+> If you used the fast-track setup, you may not have any mock test data in place. Check the **Preview with Mock Data** section in Joule Studio — if it shows no data (like the screenshot below), skip the prompts in this section and continue to Step 4.2.
+>
+> ![No mock data in Joule Studio](images/no_mock_data.png)
+
 **1. Full triage — the core use case**
 ```
 Supplier TW-VENDOR-001 just had a factory fire in Taiwan. Show me all their open

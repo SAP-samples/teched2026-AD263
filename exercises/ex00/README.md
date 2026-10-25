@@ -60,6 +60,9 @@ You should now see an empty Explorer panel with the folder name at the top left.
 
 ## Step 0.5 — Set Up the Python Environment
 
+> **Note — TechEd exercise machines only**
+> This step is required because the TechEd conference machines have a different Python version pre-installed that is incompatible with the agent tooling. If you are running this exercise on your own laptop, you can skip this step — we recommend having **Python 3.13** installed for the best experience with Joule Studio.
+
 The agent uses **liteLLM**, which requires Python 3.13. The machines have Python 3.14 installed system-wide, which is incompatible with liteLLM — deployment will fail without this step.
 
 Run the following to install Python 3.13 and activate a virtual environment:
@@ -204,7 +207,14 @@ After this exercise your setup looks like this:
 ```
 Desktop/
 └── <your-project-name>/
-    └── .claude/          ← IBD skills + MCP config, created by jl init
+    ├── .claude/          ← IBD skills + MCP config, created by jl init
+    ├── .venv/            ← Python 3.13 virtual environment (created in Step 0.5)
+    │   ├── Include/
+    │   ├── Lib/
+    │   ├── Scripts/
+    │   ├── .gitignore
+    │   └── pyvenv.cfg
+    └── .mcp.json
 ```
 
 The coding agent is running and waiting for input.
