@@ -132,7 +132,7 @@ After execution, the full agent file structure is generated and the terminal con
 >
 > **Check the tool count before moving on.** The full `CE_PURCHASEORDER_0001` service exposes 80+ tools. Your agent only needs 4 read operations — list and get on PO headers and items. If the spec doesn't constrain this, all 80+ tools will be wired up and the agent will hit a context-window limit on every request (see [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model)).
 >
-> Check the spec now — look for a `tools:` or `operations:` section under the MCP server. If it lists more than ~5 tools, or lists any write operations (create, update, delete), tell the coding agent:
+> Check the spec now — look for a `tools:` or `operations:` section under the MCP server. If it lists more than **20–25 tools**, or lists any write operations (create, update, delete), tell the coding agent:
 > ```
 > The spec has too many MCP tools. Keep only the read operations needed to list and retrieve purchase order headers and items — remove everything else.
 > ```
