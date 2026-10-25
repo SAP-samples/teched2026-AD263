@@ -41,18 +41,18 @@ Continue with PRD
 
 ## API Availability on This Tenant
 
-Use this table when reviewing the PRD and specification. IBD may discover APIs that are valid in the SAP API catalogue but not registered on this workshop tenant — those will fail at deployment.
+Use this table when reviewing the PRD and specification. IBD may discover APIs that are valid in the SAP API catalogue but not available on this workshop tenant — those will fail at deployment.
 
-| API ORD ID                                            | Description                                  | Available on tenant |
-| ----------------------------------------------------- | -------------------------------------------- | ------------------- |
-| `sap.s4:apiResource:CE_PURCHASEORDER_0001:v1`         | Purchase Orders (Cloud Edition)              | ✅ Yes               |
-| `sap.s4:apiResource:API_SCHED_AGRMT_PROCESS_SRV:v1`   | Scheduling Agreements                        | ❌ No                |
-| `sap.s4:apiResource:CE_SUPPLIERLIST_0001:v1`          | Preferred Supplier List (Cloud Edition)      | ❌ No                |
-| `sap.s4:apiResource:CE_SUPPLIERLIST_0002:v1`          | Preferred Supplier List v2                   | ❌ No                |
-| `sap.s4:apiResource:OP_SUPPLIERLIST_0002:v2`          | Preferred Supplier List (On-Premise Edition) | ❌ No                |
-| `sap.s4:apiResource:CE_SOURCINGSUPPLIERLIST_0001:v1`  | Sourcing Supplier List                       | ❌ No                |
-| `sap.s4:apiResource:API_BUSINESS_PARTNER:v1`          | Business Partner                             | ❌ No                |
-| `sap.s4:apiResource:API_PURCHASEORDER_PROCESS_SRV:v1` | Purchase Orders (On-Premise Edition)         | ❌ No                |
+| API ORD ID                                            | Description                                  | Available | Why |
+| ----------------------------------------------------- | -------------------------------------------- | --------- | --- |
+| `sap.s4:apiResource:CE_PURCHASEORDER_0001:v1`         | Purchase Orders (Cloud Edition)              | ✅ Yes     | Registered and available on the workshop tenant |
+| `sap.s4:apiResource:API_SCHED_AGRMT_PROCESS_SRV:v1`   | Scheduling Agreements                        | ❌ No      | Not registered on the workshop tenant — this is an on-premise API not available in S/4HANA Public Cloud |
+| `sap.s4:apiResource:CE_SUPPLIERLIST_0001:v1`          | Preferred Supplier List (Cloud Edition)      | ❌ No      | Not registered on the workshop tenant — no access configured for this session |
+| `sap.s4:apiResource:CE_SUPPLIERLIST_0002:v1`          | Preferred Supplier List v2                   | ❌ No      | Not registered on the workshop tenant |
+| `sap.s4:apiResource:OP_SUPPLIERLIST_0002:v2`          | Preferred Supplier List (On-Premise Edition) | ❌ No      | On-premise edition — not applicable to S/4HANA Public Cloud |
+| `sap.s4:apiResource:CE_SOURCINGSUPPLIERLIST_0001:v1`  | Sourcing Supplier List                       | ❌ No      | Not registered on the workshop tenant |
+| `sap.s4:apiResource:API_BUSINESS_PARTNER:v1`          | Business Partner                             | ❌ No      | On-premise edition — not applicable to S/4HANA Public Cloud |
+| `sap.s4:apiResource:API_PURCHASEORDER_PROCESS_SRV:v1` | Purchase Orders (On-Premise Edition)         | ❌ No      | On-premise edition — not applicable to S/4HANA Public Cloud |
 
 > **💡 Why does IBD sometimes pick the wrong API?**
 > IBD uses the SAP Knowledge Graph to discover APIs. The graph contains all published SAP APIs — including ones not registered on every tenant. The warnings in Steps 2.1–2.3 above tell you exactly how to correct the scope if IBD picks an unavailable API.
