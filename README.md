@@ -93,7 +93,7 @@ By the end of this session your agent will:
 | ---------------------------------- | ------------------------ | ----------------------- | ---- |
 | `sap-s4-purchase-order-mcp-server` | SAP S/4HANA Public Cloud | `CE_PURCHASEORDER_0001` | Read |
 
-The MCP server is generated during the exercise using the MCP Builder in Joule Studio.
+The MCP server is generated during the exercise: IBD discovers the API from the SAP Knowledge Graph, downloads the EDMX spec, and generates a `translation.json` that maps OData endpoints to named tools the agent can call.
 
 ---
 
