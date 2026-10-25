@@ -32,20 +32,20 @@ Once initialised, a coding agent (Claude Code or Opencode) runs inside your term
 
 ---
 
-In this session you will build a production-grade AI agent from scratch using the **Joule Studio Local / CLI flow**. The agent connects to SAP S/4HANA Public Cloud and automates the end-to-end response to a supplier disruption event: from identifying at-risk purchase orders and scheduling agreements to delivering a risk-scored, fully labeled assessment report.
+In this session you will build a production-grade AI agent from scratch using the **Joule Studio Local / CLI flow**. The agent connects to SAP S/4HANA Public Cloud and automates the end-to-end response to a supplier disruption event: from identifying at-risk purchase orders to delivering a risk-scored assessment with alternative supplier recommendations.
 
 ---
 
 ## Scenario
 
-You are a **Procurement Manager** at a mid-sized manufacturer. A key supplier has just announced a production halt due to a logistics disruption. You have open purchase orders and scheduling agreements in SAP S/4HANA — but coordinating a triage response manually takes hours.
+You are a **Procurement Manager** at a mid-sized manufacturer. A key supplier has just announced a production halt due to a logistics disruption. You have open purchase orders in SAP S/4HANA — but coordinating a triage response manually takes hours.
 
 By the end of this session your agent will:
 
-1. Accept a disruption signal (event type, country, date)
-2. Retrieve all at-risk open POs and scheduling agreement lines from SAP S/4HANA
-3. Score each item HIGH / MEDIUM / LOW using a composite risk model
-4. Present a fully labeled assessment — every claim tagged `[Confirmed Fact]`, `[Assumption]`, or `[Recommendation]`
+1. Accept a supplier ID and retrieve all open (not completely delivered) purchase order items for that supplier from SAP S/4HANA
+2. Score each item HIGH / MEDIUM / LOW based on delivery proximity, open value, and geographic overlap — with rationale per item
+3. Find alternative suppliers for HIGH and MEDIUM items by searching PO history
+4. Return one consolidated report ordered HIGH → MEDIUM → LOW
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -59,7 +59,6 @@ By the end of this session your agent will:
                            │
       ┌────────────────────▼────────────────────┐
       │       M2 — SAP Data Retrieval            │◄── S/4HANA: Purchase Orders
-      │                                          │◄── S/4HANA: Scheduling Agreements
       └────────────────────┬────────────────────┘
                            │
       ┌────────────────────▼────────────────────┐
@@ -69,8 +68,8 @@ By the end of this session your agent will:
                            │
       ┌────────────────────▼────────────────────┐
       │   M4 — Consolidated Risk Report          │
-      │   Labeled exposure summary presented     │
-      │   to procurement manager                 │
+      │   Risk-scored PO items + alternatives    │
+      │   presented to procurement manager       │
       └─────────────────────────────────────────┘
 
   Every output: [Confirmed Fact] | [Assumption] | [Recommendation]
@@ -90,12 +89,11 @@ By the end of this session your agent will:
 
 ## System Architecture
 
-| MCP Server                                | SAP System               | API                          | Type |
-| ----------------------------------------- | ------------------------ | ---------------------------- | ---- |
-| `sap-s4-purchase-order-mcp-server`        | SAP S/4HANA Public Cloud | `CE_PURCHASEORDER_0001`      | Read |
-| `sap-s4-scheduling-agreements-mcp-server` | SAP S/4HANA Public Cloud | `API_SCHED_AGRMT_PROCESS_SRV` | Read |
+| MCP Server                         | SAP System               | API                     | Type |
+| ---------------------------------- | ------------------------ | ----------------------- | ---- |
+| `sap-s4-purchase-order-mcp-server` | SAP S/4HANA Public Cloud | `CE_PURCHASEORDER_0001` | Read |
 
-Both MCP servers are generated during the exercise using the MCP Builder in Joule Studio.
+The MCP server is generated during the exercise using the MCP Builder in Joule Studio.
 
 ---
 

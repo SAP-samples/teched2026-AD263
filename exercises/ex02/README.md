@@ -46,8 +46,8 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 | API ORD ID                                            | Description                                  | Available on tenant |
 | ----------------------------------------------------- | -------------------------------------------- | ------------------- |
 | `sap.s4:apiResource:CE_PURCHASEORDER_0001:v1`         | Purchase Orders (Cloud Edition)              | ✅ Yes               |
-| `sap.s4:apiResource:API_SCHED_AGRMT_PROCESS_SRV:v1`   | Scheduling Agreements                        | ✅ Yes               |
-| `sap.s4:apiResource:CE_SUPPLIERLIST_0001:v1`          | Preferred Supplier List (Cloud Edition)      | ✅ Yes               |
+| `sap.s4:apiResource:API_SCHED_AGRMT_PROCESS_SRV:v1`   | Scheduling Agreements                        | ❌ No                |
+| `sap.s4:apiResource:CE_SUPPLIERLIST_0001:v1`          | Preferred Supplier List (Cloud Edition)      | ❌ No                |
 | `sap.s4:apiResource:CE_SUPPLIERLIST_0002:v1`          | Preferred Supplier List v2                   | ❌ No                |
 | `sap.s4:apiResource:OP_SUPPLIERLIST_0002:v2`          | Preferred Supplier List (On-Premise Edition) | ❌ No                |
 | `sap.s4:apiResource:CE_SOURCINGSUPPLIERLIST_0001:v1`  | Sourcing Supplier List                       | ❌ No                |
@@ -97,12 +97,12 @@ IBD generates `specification.md` inside `specification/<your-agent-name>/`. Open
 **Check the following:**
 
 - [ ] A `specification/` folder was created
-- [ ] Exactly **two or three** S/4HANA MCP servers are listed — only from the available APIs: `CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001`
+- [ ] Exactly **one** S/4HANA MCP server is listed — only `CE_PURCHASEORDER_0001`
 - [ ] A `risk_scoring` logic is described
 - [ ] Guidance for the agent is captured in `.md` skill files
 
 > **⚠️ Unregistered API in the spec?**
-> If the spec lists any API **not** in the available list below, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent:   to Remove [API name] from the specification and only use APIs from the list. The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
+> If the spec lists any API other than `CE_PURCHASEORDER_0001`, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent: `"Remove [API name] from the specification and only use CE_PURCHASEORDER_0001."` The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
 
 ![specification.md — API Discovery Results, file structure, ready to execute](images/05_spec_api_discovery_execute_command.png)
 

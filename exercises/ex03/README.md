@@ -156,22 +156,18 @@ When the coding agent finishes, verify your project has this shape. The exact fo
 │   │   └── mcp-translation/
 │   │       ├── translation.json     ← tool definitions
 │   │       └── api-spec.edmx        ← OData spec
-│   └── <s4-scheduling-agreements-mcp-server>/
-│       └── mcp-translation/
-│           ├── translation.json
-│           └── api-spec.edmx
 ```
 
 **Check the following:**
 
 - [ ] `solution.yaml` exists at the project root and lists all asset folders
-- [ ] MCP server asset folders exist only for registered APIs (`CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001`)
+- [ ] MCP server asset folder exists only for `CE_PURCHASEORDER_0001`
 - [ ] Each MCP server has a `mcp-translation/` folder with `translation.json` and an API spec file
 - [ ] At least one skill file exists under `app/skills/`
 - [ ] A `tests/` folder exists inside `assets/<your-agent-name>/` with test files
 
 > **⚠️ Unexpected MCP server folders?**
-> If you see MCP server folders for APIs **not** in the available list (`CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001`), the spec contained an unregistered API. Tell the coding agent: `"Remove the [name] MCP server asset — only CE_PURCHASEORDER_0001, API_SCHED_AGRMT_PROCESS_SRV, and CE_SUPPLIERLIST_0001 are registered on this tenant."` Then ask it to update `solution.yaml` and `asset.yaml` to remove the reference before deploying.
+> If you see MCP server folders for APIs other than `CE_PURCHASEORDER_0001`, the spec contained an unregistered API. Tell the coding agent: `"Remove the [name] MCP server asset — only CE_PURCHASEORDER_0001 is registered on this tenant."` Then ask it to update `solution.yaml` and `asset.yaml` to remove the reference before deploying.
 
 ---
 

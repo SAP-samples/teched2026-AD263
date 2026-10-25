@@ -57,32 +57,32 @@ Or use the prompts below as inspiration — adapt them to the vendor IDs and agr
 **1. Full triage — the core use case**
 ```
 Supplier TW-VENDOR-001 just had a factory fire in Taiwan. Show me all their open
-scheduling agreements, score each item by risk, and find me preferred alternatives.
+purchase order items, score each item by risk, and find me alternative suppliers.
 ```
 
-**2. Single agreement deep-dive**
+**2. Single PO deep-dive**
 ```
-Give me a full risk breakdown for scheduling agreement 5500000001, including the
+Give me a full risk breakdown for purchase order 4500000001, including the
 delivery date, open quantity, and total exposure value.
 ```
 
 **3. Alternative supplier check**
 ```
-For material group L001 — Electronic Components — who are our preferred alternative
-suppliers and what are their evaluation scores?
+For material TW-COMP-007 — which other suppliers have delivered it in the past
+based on our PO history? Include their supplier IDs.
 ```
 
-**4. Geographic risk filter**
+**4. High-risk items only**
 ```
-Which of our active scheduling agreements have delivery addresses in Taiwan?
-Score them and tell me which ones are HIGH risk.
+Which of our open purchase order items for supplier TW-VENDOR-001 are scored HIGH risk?
+Show delivery dates and open values only.
 ```
 
 **5. Executive summary**
 ```
 We have a supply disruption with TW-VENDOR-001. Give me a one-page summary: how many
-agreements are at risk, what's the total open value in EUR, and which alternative is
-our best option based on scorecard rating?
+PO items are at risk, what's the total open value, and which alternative supplier is
+our best option based on PO history?
 ```
 
 ![Send prompt to agent against mocked data](images/03_send_prompt_mocked_data.png)
@@ -95,8 +95,7 @@ Your solution is already visible in the Joule Studio Web UI — watch its status
 
 ```
 Our supplier in Taiwan has announced a factory fire.
-The disruption started on 2024-03-01. What purchase orders and scheduling
-agreements are at risk?
+The disruption started on 2024-03-01. What purchase orders are at risk?
 ```
 
 ![Disruption scenario sent to deployed agent](images/04_disruption_scenario_sent.png)
@@ -110,8 +109,7 @@ Work through this checklist:
 - [ ] Agent states it is beginning the triage sequence
 
 **M2 — SAP Data Retrieval**
-- [ ] Open purchase orders returned for suppliers in Taiwan, each labeled `[Confirmed Fact]`
-- [ ] Scheduling agreement lines returned, labeled `[Confirmed Fact]`
+- [ ] Open purchase order items returned for the supplier, each labeled `[Confirmed Fact]`
 
 **M3 — Risk Scoring**
 - [ ] Each line item is assigned HIGH, MEDIUM, or LOW
@@ -141,7 +139,7 @@ Your agent is now live and reachable from multiple surfaces. Pick one or try all
 Open a new terminal tab and send the disruption scenario directly:
 
 ```bash
-jl a2a message "Our supplier in Taiwan has announced a factory fire. The disruption started on 2024-03-01. What purchase orders and scheduling agreements are at risk?" --solution <your-solution-id> --asset <your-agent-name>
+jl a2a message "Our supplier in Taiwan has announced a factory fire. The disruption started on 2024-03-01. What purchase orders are at risk?" --solution <your-solution-id> --asset <your-agent-name>
 ```
 
 The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
@@ -152,7 +150,7 @@ Open SAP Joule Work and tag your agent by its asset ID:
 
 ```
 @<your-agent-name> Our supplier in Taiwan has announced a factory fire.
-The disruption started on 2024-03-01. What purchase orders and scheduling agreements are at risk?
+The disruption started on 2024-03-01. What purchase orders are at risk?
 ```
 
 > **Note — Why this matters**
@@ -167,7 +165,7 @@ Taiwan factory fire signal
         ↓
 M1  Disruption intake confirmed
         ↓
-M2  Open POs + scheduling agreements retrieved  [Confirmed Fact]
+M2  Open PO items retrieved  [Confirmed Fact]
         ↓
 M3  Risk scored: HIGH / MEDIUM / LOW with rationale  [Assumption for thresholds]
         ↓

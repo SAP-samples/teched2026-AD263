@@ -3,7 +3,7 @@
 In this exercise you will submit your intent prompt to the IBD coding agent. The tool will analyze your intent, map it to SAP's Reference Business Architecture, and ask clarifying questions before generating the solution documents.
 
 > **Note — Scenario recap**
-> You are a **Procurement Manager** responding to a supplier production halt. You need an agent that identifies at-risk purchase orders and scheduling agreements in SAP S/4HANA and scores their impact — with every output clearly labeled by data provenance. Full scenario description: [Session overview](../../README.md#scenario).
+> You are a **Procurement Manager** responding to a supplier production halt. You need an agent that identifies at-risk purchase orders in SAP S/4HANA and scores their impact — with clear rationale per item and alternative supplier suggestions. Full scenario description: [Session overview](../../README.md#scenario).
 
 ---
 
@@ -12,14 +12,18 @@ In this exercise you will submit your intent prompt to the IBD coding agent. The
 In the coding agent chat, paste the following prompt and press **Enter**:
 
 ```
-I am a procurement manager at a manufacturing company using SAP S/4HANA Public Cloud. Our key supplier in Taiwan has just announced a production halt due to a factory fire starting today.
+I am a procurement manager at a manufacturing company using SAP S/4HANA Public Cloud.
+When a key supplier has a production halt, I need an autonomous agent that:
 
-I need an agent that:
-1. Retrieves all open purchase orders and scheduling agreements linked to affected suppliers in SAP S/4HANA
-2. Scores each item HIGH / MEDIUM / LOW based on delivery proximity, open value, and geographic overlap
+1. Retrieves all open (not completely delivered) purchase order items for the affected supplier from SAP S/4HANA. Open means DeliveryIsCompleted ne 'X'. Supplier is a header-level field — filter on PO headers, not items.
 
-Rules the agent must follow:
-- Every output must be labeled [Confirmed Fact], [Assumption], or [Recommendation]
+2. Scores each item HIGH / MEDIUM / LOW based on delivery proximity, open value, and geographic overlap. States all three factors and a rationale per item.
+
+3. Finds alternative suppliers for every HIGH or MEDIUM material by searching purchase order history — filtering PO items by material to find which other suppliers have previously delivered it, then cross-referencing PO headers for their supplier IDs. If none exist, states "No alternative supplier found in PO history".
+
+4. Returns one consolidated report ordered HIGH → MEDIUM → LOW with scores, rationale, and alternative suppliers per material.
+
+The agent only needs to read purchase orders and their items. It does not need to create, update, or delete anything.
 ```
 
 > **💡 In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.**
@@ -54,19 +58,19 @@ IBD may show a numbered list of goals — pick the ones that fit. For this scena
 - Full risk-scored triage report ready within 30 minutes
 
 **"Which SAP systems are involved?"**
-→ `SAP S/4HANA Public Cloud` — purchase orders and scheduling agreements both come from S/4HANA.
+→ `SAP S/4HANA Public Cloud` — purchase orders come from S/4HANA.
 
 **"What is the business process?"**
-→ `Source to Pay` — specifically the supplier disruption response part: triage open POs and scheduling agreements.
+→ `Source to Pay` — specifically the supplier disruption response part: triage open POs.
 
 **"Are there any compliance or auditability requirements?"**
 → `Yes` — every piece of information the agent presents must be labeled: `[Confirmed Fact]` for data retrieved from SAP systems, `[Assumption]` for scoring thresholds, `[Recommendation]` for suggested actions.
 
 **"What is the urgency / timeline?"**
-→ All affected POs and scheduling agreements must be triaged within 30 minutes of the disruption signal.
+→ All affected POs must be triaged within 30 minutes of the disruption signal.
 
 **"Which APIs or data sources should the agent use?"**
-→ These APIs are available on this workshop tenant: `CE_PURCHASEORDER_0001` (purchase orders), `API_SCHED_AGRMT_PROCESS_SRV` (scheduling agreements), and `CE_SUPPLIERLIST_0001` (preferred supplier list). If IBD suggests any other API (business partner, sourcing supplier list, or anything else), answer: `"Only use APIs from the available list — CE_PURCHASEORDER_0001, API_SCHED_AGRMT_PROCESS_SRV, and CE_SUPPLIERLIST_0001."` All other APIs are not registered on this tenant and will fail at deployment.
+→ Only `CE_PURCHASEORDER_0001` (purchase orders) is available on this workshop tenant. If IBD suggests any other API (scheduling agreements, business partner, sourcing supplier list, or anything else), answer: `"Only use CE_PURCHASEORDER_0001 — it is the only API registered on this tenant."` All other APIs will fail at deployment.
 
 ---
 
@@ -92,11 +96,11 @@ Once your intent is submitted, the IBD MCP server runs the following pipeline:
 | **Parse** | Structures your intent into a machine-readable problem definition |
 | **RBA Mapping** | Maps to SAP Reference Business Architecture → Source to Pay (BPS-329, BPS-340) |
 | **Fit-Gap Analysis** | Queries SAP Knowledge Graph to assess which capabilities cover your intent |
-| **API Discovery** | Discovers APIs from the available set: `CE_PURCHASEORDER_0001`, `API_SCHED_AGRMT_PROCESS_SRV`, `CE_SUPPLIERLIST_0001` |
+| **API Discovery** | Discovers APIs from the available set: `CE_PURCHASEORDER_0001` |
 | **Intent Fit Score** | Scores how closely the proposed solution matches your requirement (target: ≥ 0.7) |
 
 > **Note — Low intent fit score?**
-> If the score is below 0.7, check that SAP S/4HANA Public Cloud was named explicitly and that both APIs (POs and scheduling agreements) are in your intent statement.
+> If the score is below 0.7, check that SAP S/4HANA Public Cloud was named explicitly and that `CE_PURCHASEORDER_0001` is referenced in your intent statement.
 
 ## Step 1.3 — Review and Save `intent.md`
 
