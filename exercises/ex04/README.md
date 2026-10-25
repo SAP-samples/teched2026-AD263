@@ -14,6 +14,8 @@ deploy the agent
 
 The agent is packaged and deployed to SAP managed Joule Studio runtime on the provided landscape. **Deployment includes full end-to-end integration — expect it to take several minutes.**
 
+> **Deployment taking longer than expected?** See [TS-03 — Deployment stuck on "Integrating"](../../troubleshooting/README.md#ts-03--deployment-stuck-on-integrating)
+
 Before packaging, `jl solution validate` runs automatically. It checks 9 rules across your solution — from confirming `solution.yaml` exists and is schema-valid, to verifying every asset folder has a proper `asset.yaml`, every file reference resolves, and every agent uses a known LLM model. Errors block the deploy; warnings are advisory. If validation fails, the output tells you exactly which rule failed and what to fix.
 
 ---
@@ -50,10 +52,7 @@ Please create 5 test prompts to test the agent against my mocked data
 
 Or use the prompts below as inspiration — adapt them to the vendor IDs and agreement numbers in your own dataset:
 
-> **Note — fast-track participants**
-> If you used the fast-track setup, you may not have any mock test data in place. Check the **Preview with Mock Data** section in Joule Studio — if it shows no data (like the screenshot below), skip the prompts in this section and continue to Step 4.2.
->
-> ![No mock data in Joule Studio](images/no_mock_data.png)
+> **No mock data?** If you used the fast-track setup, the Testing Overview may be empty and the Preview with Mock Data section may show no data. See [TS-02 — Testing Overview shows no test reports](../../troubleshooting/README.md#ts-02--testing-overview-shows-no-test-reports) — skip the prompts below and continue to Step 4.2.
 
 **1. Full triage — the core use case**
 ```
@@ -128,6 +127,8 @@ Work through this checklist:
 
 > **💡 Use OTEL traces to debug**
 > If the agent skips a milestone or produces unexpected output, open the **Tracing** tab in Joule Studio — each span shows which tool was called, with what inputs, and how long it took. This is the fastest way to identify instruction drift or a misconfigured tool.
+
+> **Getting a 400 "Input is too long" error?** See [TS-01 — 400: Input is too long for requested model](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model)
 
 ---
 

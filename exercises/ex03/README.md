@@ -120,6 +120,8 @@ Open the `tests/` folder inside your agent asset directory.
 - [ ] A `conftest.py` that patches `get_mcp_tools` so tests run offline
 - [ ] All tests pass
 
+> **Test files missing or empty?** If you used the fast-track setup, test generation may have been skipped. See [TS-02 — Testing Overview shows no test reports](../../troubleshooting/README.md#ts-02--testing-overview-shows-no-test-reports)
+
 > **💡 Finished early?**
 > Start the bonus while you wait: [Exercise 5 — Bonus Exercises](../ex05/README.md)
 

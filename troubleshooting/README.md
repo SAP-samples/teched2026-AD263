@@ -2,11 +2,11 @@
 
 Common issues encountered during the AD263 workshop, with root causes and fixes.
 
----
-
-- [TS-01 — 400: Input is too long for requested model](#ts-01--400-input-is-too-long-for-requested-model)
-- [TS-02 — Testing Overview shows no test reports](#ts-02--testing-overview-shows-no-test-reports)
-- [TS-03 — Deployment stuck on "Integrating"](#ts-03--deployment-stuck-on-integrating)
+| # | Issue | Where |
+|---|-------|-------|
+| [TS-01](#ts-01--400-input-is-too-long-for-requested-model) | 400: Input is too long for requested model | Exercise 4 — first agent run |
+| [TS-02](#ts-02--testing-overview-shows-no-test-reports) | Testing Overview shows no test reports | Exercise 3 & 4 — fast-track participants |
+| [TS-03](#ts-03--deployment-stuck-on-integrating) | Deployment stuck on "Integrating" | Exercise 4 — after deploy |
 
 ---
 
