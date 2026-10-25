@@ -5,6 +5,7 @@ Common issues encountered during the AD263 workshop, with root causes and fixes.
 ---
 
 - [TS-01 — 400: Input is too long for requested model](#ts-01--400-input-is-too-long-for-requested-model)
+- [TS-02 — Testing Overview shows no test reports](#ts-02--testing-overview-shows-no-test-reports)
 
 ---
 
@@ -56,3 +57,28 @@ After the coding agent updates `asset.yaml`, redeploy:
 ```
 deploy the agent
 ```
+
+---
+
+## TS-02 — Testing Overview shows no test reports
+
+### What you see
+
+The **Testing → Overview** tab in Joule Studio shows an empty state:
+
+> *No test reports available. No test reports are available yet. Results will appear here once available.*
+
+![No test reports available in Joule Studio Testing Overview](images/ts02_no_test_reports.png)
+
+### Root cause
+
+You most likely used the **fast-track setup**, which skips the automated test generation steps. Several IBD phases (Requirements, Specifications) were not completed in sequence, so no test cases were generated and no test runs were executed.
+
+### What to do
+
+This is expected — **continue where you are**. The absence of test reports does not block deployment or the rest of the exercise.
+
+> **For real use cases:** When building an agent outside of a workshop, always run tests before deploying to production. Use the **Test Solution** button in the Testing Overview to trigger a test run once your agent is deployed, or ask the coding agent to generate test cases:
+> ```
+> Generate test cases for my agent based on the specification
+> ```
