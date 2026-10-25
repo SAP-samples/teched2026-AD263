@@ -54,10 +54,12 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 | `sap.s4:apiResource:API_BUSINESS_PARTNER:v1`          | Business Partner                             | ❌ No      |
 | `sap.s4:apiResource:API_PURCHASEORDER_PROCESS_SRV:v1` | Purchase Orders (On-Premise Edition)         | ❌ No      |
 
-> **💡 Why does IBD sometimes pick the wrong API?**
-> IBD does its best to discover APIs relevant to your intent — but developers don't always have access to the real backend, and not every API in the SAP Knowledge Graph is registered or accessible on every tenant. This is normal in real-world projects too: you design against what the catalogue says is available, then validate against what your specific system actually exposes.
+> **💡 Why does IBD sometimes suggest an API that isn't available here?**
+> IBD discovers APIs from the SAP Knowledge Graph — a broad catalogue of what SAP systems *can* expose. It makes the best recommendation it can based on your intent, but it doesn't know which APIs are active on your specific tenant. This is a normal part of real-world development: you design against what the catalogue says is available, then validate against what your system actually exposes.
 >
-> For this end-to-end workshop exercise, stick to the one API we know all participants have access to: **`CE_PURCHASEORDER_0001`**. If IBD suggests anything else, redirect it using the guidance in Steps 2.2–2.3.
+> For this workshop, stick to **`CE_PURCHASEORDER_0001`** — the one API all participants have access to. If IBD suggests anything else, redirect it using the guidance in Steps 2.2–2.3.
+>
+> If your deployed agent returns a 403 on the alternative supplier lookup, that's expected — see [TS-04](../../troubleshooting/README.md#ts-04--403-forbidden-on-alternative-supplier-lookup) for details.
 
 
 ## Step 2.2 — Review the PRD
