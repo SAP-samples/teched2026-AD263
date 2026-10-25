@@ -101,7 +101,7 @@ The MCP server is generated during the exercise: IBD discovers the API from the 
 
 ### Technical Prerequisites
 
-- VS Code installed on your session laptop
+- VS Code installed on your session laptop — any terminal or IDE with a terminal works equally well; VS Code is the selected platform for TechEd
 - `jl` CLI (Joule Studio CLI) — verified in [Exercise 0](exercises/ex00/README.md)
 - Credentials for the provided Joule Studio landscape (handed out by the session guide)
 
