@@ -161,11 +161,15 @@ jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all 
 
 **Where to find the values:**
 
-**Solution ID** — open `deploy_result.json` in the root of your project folder. It contains a single line with your solution ID:
+**Option 1 — Web UI:** Open your solution in Joule Studio and go to **Manage → Overview**. The Solution ID is in the browser URL bar. The Asset Name is in the asset table under the **Asset Name** column:
+
+![Joule Studio Overview — Solution ID in URL bar and Asset Name in table](images/10_a2a_solution_id_webui.png)
+
+**Option 2 — Files:** Open `deploy_result.json` in the root of your project folder for the Solution ID:
 
 ![deploy_result.json open in VS Code showing solution_id](images/08_a2a_deploy_result_json.png)
 
-**Asset name** — open `assets/<your-agent-folder>/asset.yaml`. The name is under `metadata.name` (e.g. `supply-disruption-agent`):
+Or open `assets/<your-agent-folder>/asset.yaml` — the Asset Name is under `metadata.name`:
 
 ![asset.yaml open in VS Code with metadata.name highlighted](images/09_a2a_asset_yaml_name.png)
 
