@@ -6,6 +6,7 @@ Common issues encountered during the AD263 workshop, with root causes and fixes.
 
 - [TS-01 — 400: Input is too long for requested model](#ts-01--400-input-is-too-long-for-requested-model)
 - [TS-02 — Testing Overview shows no test reports](#ts-02--testing-overview-shows-no-test-reports)
+- [TS-03 — Deployment stuck on "Integrating"](#ts-03--deployment-stuck-on-integrating)
 
 ---
 
@@ -82,3 +83,29 @@ This is expected — **continue where you are**. The absence of test reports doe
 > ```
 > Generate test cases for my agent based on the specification
 > ```
+
+---
+
+## TS-03 — Deployment stuck on "Integrating"
+
+### What you see
+
+The coding agent's terminal shows deployment polling with status `progressing` — and it keeps polling:
+
+![Terminal showing deployment status: progressing](images/ts03_deploy_progressing_terminal.png)
+
+In the Joule Studio Web UI, the solution assets show status **Integrating** for both the AI Agent and the MCP Server:
+
+![Joule Studio Manage tab showing assets stuck on Integrating](images/ts03_deploy_integrating_webui.png)
+
+### Root cause
+
+Integration involves registering your agent and its MCP server with the SAP backend services. During a hands-on session with many participants deploying simultaneously, this step can take anywhere from **10 minutes to 1 hour** depending on system load and the availability of backend services.
+
+This is not an error — it is the platform working. The deployment will complete on its own.
+
+### What to do
+
+**During the workshop:** If integration has been running for more than 10–15 minutes, raise your hand and ask a facilitator. They can show you a working deployed solution so you can continue with the testing exercises while your deployment completes in the background.
+
+**In real life:** Wait. Integration always completes — there is no action needed on your side. You can monitor progress in the Joule Studio Web UI under **Manage → Deployment**.
