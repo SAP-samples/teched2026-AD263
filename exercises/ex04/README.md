@@ -159,7 +159,25 @@ Open a new terminal tab and send the disruption scenario directly:
 jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders." --solution <your-solution-id> --asset <your-agent-name>
 ```
 
-The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
+**Where to find the values:**
+
+**Solution ID** — open `deploy_result.json` in the root of your project folder. It contains a single line with your solution ID:
+
+![deploy_result.json open in VS Code showing solution_id](images/08_a2a_deploy_result_json.png)
+
+**Asset name** — open `assets/<your-agent-folder>/asset.yaml`. The name is under `metadata.name` (e.g. `supply-disruption-agent`):
+
+![asset.yaml open in VS Code with metadata.name highlighted](images/09_a2a_asset_yaml_name.png)
+
+**Option A2 — ask the coding agent to send the A2A call for you**
+
+You don't need to find any IDs manually — just ask:
+
+```
+Send an A2A message to my agent: Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
+```
+
+The coding agent will read `deploy_result.json` and `asset.yaml` itself and run the command for you.
 
 **Option B — Joule Work conversation**
 
