@@ -76,9 +76,13 @@ Open it from the Explorer panel and review the full document:
 
 - [ ] Business metrics are meaningful and match your input intent
 - [ ] Personas for the use case are well defined
-- [ ] Solution architecture lists exactly S/4HANA MCP servers that are avaliable on this tenant
+- [ ] Solution architecture lists exactly S/4HANA MCP servers that are available on this tenant
 - [ ] All milestones are represented as named functional requirements
 - [ ] The composite risk scoring model (HIGH / MEDIUM / LOW) is described as a functional requirement
+- [ ] The functional requirements describe **only the operations the agent needs** — list/get on PO headers and items. If the PRD mentions create, update, or delete operations, correct it now.
+
+> **💡 Why does the tool count matter?**
+> Every tool definition is sent to the LLM with every request. An MCP server like `CE_PURCHASEORDER_0001` exposes 80+ tools covering the full OData service — read, write, delete. If the spec doesn't constrain this, the implementation will expose all of them, filling the model's context window before it can reason. The fix is to catch it here: if the PRD only describes read operations, the spec and implementation will only wire up read tools. See [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model) for what happens when this is missed.
 
 
 > **Note**
@@ -104,6 +108,7 @@ IBD generates `specification.md` inside `specification/<your-agent-name>/`. Open
 - [ ] Exactly **one** S/4HANA MCP server is listed — only `CE_PURCHASEORDER_0001`
 - [ ] A `risk_scoring` logic is described
 - [ ] Guidance for the agent is captured in `.md` skill files
+- [ ] The spec lists **only read operations** (list/get) — no create, update, or delete. If write operations appear, tell the coding agent: `"Remove all write operations — this agent is read-only."`
 
 > **⚠️ Unregistered API in the spec?**
 > If the spec lists any API other than `CE_PURCHASEORDER_0001`, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent: `"Remove [API name] from the specification and only use CE_PURCHASEORDER_0001."` The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
