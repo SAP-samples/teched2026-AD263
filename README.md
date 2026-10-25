@@ -1,58 +1,152 @@
-# Containing Files
+# AD263 — Build a Supplier Disruption Response Agent on SAP S/4HANA
 
-1. The LICENSE file:
-In most cases, the license for SAP sample projects is `Apache 2.0`.
-
-2. The REUSE.toml file: 
-The [Reuse Tool](https://reuse.software/) must be used for your samples project. You can find the REUSE.toml in the project initial. Please replace the parts inside the single angle quotation marks < > by the specific information for your repository.
-
-3. The README.md file (this file):
-Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
-
-# Session ID - Session Title
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/teched2026-AD263)](https://api.reuse.software/info/github.com/SAP-samples/teched2026-AD263)
 
 ## Description
 
-This repository contains the material for the SAP TechEd 2026 session called Session ID - Session Title.  
+This repository contains the hands-on exercise materials for **session AD263** at SAP TechEd 2026.
 
-## Overview
+### What is Joule Studio?
 
-This session introduces attendees to...
+**Joule Studio** is SAP's platform for building, deploying, and managing AI agents. It provides an end-to-end development experience — from describing what you want in plain language to running a production agent in SAP AI Core, accessible via SAP Joule.
+
+Joule Studio supports two development modes:
+
+| Mode               | Who it's for                  | How it works                                                     |
+| ------------------ | ----------------------------- | ---------------------------------------------------------------- |
+| Web                | Developers, business analysts | Visual flow builder in a browser                                 |
+| **Local / CLI**    | Developers, technical PMs     | `jl` CLI + coding agent (Claude Code or opencode) on your laptop |
+
+![Joule Studio: Build Agents in the Browser or Locally](images/joule_studio_paths.png)
+
+In this session you use the **local / CLI** path. The core mechanic is **Intent-Based Development (IBD)**: you describe the agent's goal in plain language, and Joule Studio's IBD engine generates a PRD, a technical specification, and a full implementation — which you then review, extend, and deploy.
+
+The `jl` CLI is the entry point for the pro-code flow:
+
+```
+jl login          # authenticate against your AI Core instance
+jl init claude    # scaffold the project + wire the IBD MCP server
+```
+
+Once initialised, a coding agent (Claude Code or Opencode) runs inside your terminal and drives the IBD flow through natural-language instructions.
+
+---
+
+In this session you will build a production-grade AI agent from scratch using the **Joule Studio Local / CLI flow**. The agent connects to SAP S/4HANA Public Cloud and automates the end-to-end response to a supplier disruption event: from identifying at-risk purchase orders to delivering a risk-scored assessment with alternative supplier recommendations.
+
+---
+
+## Scenario
+
+You are a **Procurement Manager** at a mid-sized manufacturer. A key supplier has just announced a production halt due to a logistics disruption. You have open purchase orders in SAP S/4HANA — but coordinating a triage response manually takes hours.
+
+By the end of this session your agent will:
+
+1. Accept a supplier ID and retrieve all open (not completely delivered) purchase order items for that supplier from SAP S/4HANA
+2. Score each item HIGH / MEDIUM / LOW based on delivery proximity, open value, and geographic overlap — with rationale per item
+3. Find alternative suppliers for HIGH and MEDIUM items by searching PO history
+4. Return one consolidated report ordered HIGH → MEDIUM → LOW
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│               Supplier Disruption Response Agent                        │
+│                    LangGraph · Joule Studio                             │
+└──────────────────────────┬──────────────────────────────────────────────┘
+                           │
+      ┌────────────────────▼────────────────────┐
+      │  M1 — Signal Detection & Classification  │
+      └────────────────────┬────────────────────┘
+                           │
+      ┌────────────────────▼────────────────────┐
+      │       M2 — SAP Data Retrieval            │◄── S/4HANA: Purchase Orders
+      └────────────────────┬────────────────────┘
+                           │
+      ┌────────────────────▼────────────────────┐
+      │    M3 — Impact & Risk Assessment         │
+      │    HIGH / MEDIUM / LOW per line item     │
+      └────────────────────┬────────────────────┘
+                           │
+      ┌────────────────────▼────────────────────┐
+      │   M4 — Consolidated Risk Report          │
+      │   Risk-scored PO items + alternatives    │
+      │   presented to procurement manager       │
+      └─────────────────────────────────────────┘
+
+  Every output: [Confirmed Fact] | [Assumption] | [Recommendation]
+```
+
+---
+
+## Business Outcomes
+
+| Metric                        | Current (manual) | Target (agent)  |
+| ----------------------------- | ---------------- | --------------- |
+| Time to identify at-risk POs  | Hours            | < 15 minutes    |
+| Full risk-scored triage done  | Hours            | < 30 minutes    |
+| Recommendation traceability   | Ad hoc           | 100% labeled    |
+
+---
+
+## System Architecture
+
+| MCP Server                         | SAP System               | API                     | Type |
+| ---------------------------------- | ------------------------ | ----------------------- | ---- |
+| `sap-s4-purchase-order-mcp-server` | SAP S/4HANA Public Cloud | `CE_PURCHASEORDER_0001` | Read |
+
+The MCP server is generated during the exercise: IBD discovers the API from the SAP Knowledge Graph, downloads the EDMX spec, and generates a `translation.json` that maps OData endpoints to named tools the agent can call.
+
+---
 
 ## Requirements
 
-The requirements to follow the exercises in this repository are...
+### Technical Prerequisites
+
+- VS Code installed on your session laptop — any terminal or IDE with a terminal works equally well; VS Code is the selected platform for this hands-on session at TechEd
+- `jl` CLI (Joule Studio CLI) — verified in [Exercise 0](exercises/ex00/README.md)
+- Credentials for the provided Joule Studio landscape (handed out by the session guide)
+
+### No starter repo needed
+
+You create everything from scratch using the IBD (Intent-Based Development) flow. There is nothing to clone before.
+
+---
 
 ## Exercises
 
-Provide the exercise content here directly in README.md using [markdown](https://guides.github.com/features/mastering-markdown/) and linking to the specific exercise pages, below is an example.
+| Exercise | Title | Duration |
+|----------|-------|----------|
+| [Exercise 0](exercises/ex00/README.md) | Set Up Your Environment | ~10 min |
+| [Exercise 1](exercises/ex01/README.md) | Enter Your Intent | ~10 min |
+| [Exercise 2](exercises/ex02/README.md) | Review Intent, PRD & Specification | ~15 min |
+| [Exercise 3](exercises/ex03/README.md) | Implementation & Code Review | ~30 min |
+| [Exercise 4](exercises/ex04/README.md) | Deploy & Test Your Agent | ~15 min |
+| [Exercise 5](exercises/ex05/README.md) | Bonus Exercises | remaining time |
 
-- [Getting Started](exercises/ex0/)
-- [Exercise 1 - First Exercise Description](exercises/ex1/)
-    - [Exercise 1.1 - Exercise 1 Sub Exercise 1 Description](exercises/ex1#exercise-11-sub-exercise-1-description)
-    - [Exercise 1.2 - Exercise 1 Sub Exercise 2 Description](exercises/ex1#exercise-12-sub-exercise-2-description)
-- [Exercise 2 - Second Exercise Description](exercises/ex2/)
-    - [Exercise 2.1 - Exercise 2 Sub Exercise 1 Description](exercises/ex2#exercise-21-sub-exercise-1-description)
-    - [Exercise 2.2 - Exercise 2 Sub Exercise 2 Description](exercises/ex2#exercise-22-sub-exercise-2-description)
+Start with [Exercise 0 →](exercises/ex00/README.md)
 
-  
-**OR** Link to the Tutorial Navigator for example...
+If you run into issues, see the [Troubleshooting guide →](troubleshooting/README.md)
 
-Start the exercises [here](https://developers.sap.com/tutorials/abap-environment-trial-onboarding.html).
+---
 
-**IMPORTANT**
+## Learning Objectives
 
-Your repo must contain the .reuse and LICENSES folder and the License section below. DO NOT REMOVE the section or folders/files. Also, remove all unused template assets(images, folders, etc) from the exercises folder. 
+After completing this session you will be able to:
 
-## Contributing
-Please read the [CONTRIBUTING.md](./CONTRIBUTING.md) to understand the contribution guidelines.
+1. Use the Joule Studio **local / CLI** IBD flow end-to-end: Intent → PRD → Specification → Implementation
+2. Discover SAP APIs via the SAP Knowledge Graph and generate MCP servers from OpenAPI and EDMX specs
+3. Build a multi-API AI agent on SAP S/4HANA Public Cloud from scratch
+4. Implement risk scoring and output labeling as production-grade agent guardrails
+5. Deploy and test an AI agent via the Joule Studio CLI (`jl`) and interact with it through SAP Joule
 
-## Code of Conduct
-Please read the [SAP Open Source Code of Conduct](https://github.com/SAP-samples/.github/blob/main/CODE_OF_CONDUCT.md).
+---
 
 ## How to obtain support
 
-Support for the content in this repository is available during the actual time of the online session for which this content has been designed. Otherwise, you may request support via the [Issues](../../issues) tab.
+This repository is provided as-is for the SAP TechEd 2026 hands-on session. For questions during the session, raise your hand — a session guide is available.
+
+---
 
 ## License
-Copyright (20xx-)20xx SAP SE or an SAP affiliate company and <your-project> contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/<your-project>).
+
+Copyright 2026 SAP SE or an SAP affiliate company. All rights reserved.
+This project is licensed under the Apache Software License, version 2.0 — see [LICENSE](LICENSE) for details.

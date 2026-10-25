@@ -1,0 +1,119 @@
+# Exercise 1 — Enter Your Intent
+
+In this exercise you will submit your intent prompt to the IBD coding agent. The tool will analyze your intent, map it to SAP's Reference Business Architecture, and ask clarifying questions before generating the solution documents.
+
+> **Note — Scenario recap**
+> You are a **Procurement Manager** responding to a supplier production halt. You need an agent that identifies at-risk purchase orders in SAP S/4HANA and scores their impact — with clear rationale per item and alternative supplier suggestions. Full scenario description: [Session overview](../../README.md#scenario).
+
+---
+
+## Step 1.1 — Enter the Intent Prompt
+
+In the coding agent chat, paste the following prompt and press **Enter**:
+
+```
+I am a procurement manager at a manufacturing company using SAP S/4HANA Public Cloud.
+When a key supplier has a production halt, I need an autonomous agent that:
+
+1. Retrieves all open (not completely delivered) purchase order items for the affected supplier from SAP S/4HANA. Open means DeliveryIsCompleted ne 'X'. Supplier is a header-level field — filter on PO headers, not items.
+
+2. Scores each item HIGH / MEDIUM / LOW based on delivery proximity, open value, and geographic overlap. States all three factors and a rationale per item.
+
+3. Finds alternative suppliers for every HIGH or MEDIUM material by searching purchase order history — filtering PO items by material to find which other suppliers have previously delivered it, then cross-referencing PO headers for their supplier IDs. If none exist, states "No alternative supplier found in PO history".
+
+4. Returns one consolidated report ordered HIGH → MEDIUM → LOW with scores, rationale, and alternative suppliers per material.
+
+The agent only needs to read purchase orders and their items. It does not need to create, update, or delete anything.
+```
+
+> **💡 In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.**
+
+
+![IBD skill running intent analysis](images/02_ibd_skill_running.png)
+
+The IBD skill loads and begins the intent analysis pipeline.
+
+> **Note — Every IBD run looks different — that is expected**
+> IBD uses an LLM to interpret your intent, so the exact wording of clarifying questions, the order of steps, and the generated document content will vary between runs and between participants. Screenshots in this guide are **illustrative only** — your session will not look identical. Focus on the checklists, not the screenshots.
+
+
+---
+
+## Step 1.2 — Answer Clarifying Questions
+
+IBD will ask a few follow-up questions before generating the intent document. Questions vary by run — use this cheat sheet to answer quickly and confidently.
+
+Example: what does success look like in measurable terms:
+
+![IBD asking success metrics question — numbered list of goals to select](images/03_ibd_success_metrics_question.png)
+
+
+---
+
+### Cheat sheet
+
+**"What does success look like?"**
+IBD may show a numbered list of goals — pick the ones that fit. For this scenario, good choices are:
+- Cover 100% of affected purchase orders within 15 minutes
+- Full risk-scored triage report ready within 30 minutes
+
+**"Which SAP systems are involved?"**
+→ `SAP S/4HANA Public Cloud` — purchase orders come from S/4HANA.
+
+**"What is the business process?"**
+→ `Source to Pay` — specifically the supplier disruption response part: triage open POs.
+
+**"Are there any compliance or auditability requirements?"**
+→ `Yes` — every piece of information the agent presents must be labeled: `[Confirmed Fact]` for data retrieved from SAP systems, `[Assumption]` for scoring thresholds, `[Recommendation]` for suggested actions.
+
+**"What is the urgency / timeline?"**
+→ All affected POs must be triaged within 30 minutes of the disruption signal.
+
+**"Which APIs or data sources should the agent use?"**
+→ Only `CE_PURCHASEORDER_0001` (purchase orders) is available on this workshop tenant. If IBD suggests any other API (scheduling agreements, business partner, sourcing supplier list, or anything else), answer: `"Only use CE_PURCHASEORDER_0001 — it is the only API registered on this tenant."` All other APIs will fail at deployment.
+
+---
+
+> **💡 Tip**
+> Not sure about a question? Give a short answer and move on — you will review the full `intent.md` document before the PRD is generated, and you can ask the coding agent to adjust anything that doesn't look right.
+
+After answering all questions, IBD shows a summary of your answers for review:
+
+![IBD reviewing answers before writing intent.md — suggested defaults shown](images/04_ibd_review_answers_prompt.png)
+
+IBD then presents a Business Goals & Success Criteria table and asks you to confirm before proceeding:
+
+![IBD confirm goals and success criteria table — confirm or edit before intent.md is written](images/05_ibd_confirm_goals_table.png)
+
+---
+
+## What is Happening Behind the Scenes
+
+Once your intent is submitted, the IBD MCP server runs the following pipeline:
+
+| Stage | What the tool does |
+| --- | --- |
+| **Parse** | Structures your intent into a machine-readable problem definition |
+| **RBA Mapping** | Maps to SAP Reference Business Architecture → Source to Pay (BPS-329, BPS-340) |
+| **Fit-Gap Analysis** | Queries SAP Knowledge Graph to assess which capabilities cover your intent |
+| **API Discovery** | Discovers APIs from the available set: `CE_PURCHASEORDER_0001` |
+| **Intent Fit Score** | Scores how closely the proposed solution matches your requirement (target: ≥ 0.7) |
+
+> **Note — Low intent fit score?**
+> If the score is below 0.7, check that SAP S/4HANA Public Cloud was named explicitly and that `CE_PURCHASEORDER_0001` is referenced in your intent statement.
+
+## Step 1.3 — Review and Save `intent.md`
+
+When the analysis completes, IBD generates an `intent.md` file in your project folder. VS Code will prompt you to save it — click **Yes, allow all edits during this session**.
+
+![intent.md generated — VS Code save prompt](images/06_intent_md_save_prompt.png)
+
+Review the intent analysis summary in the terminal — check the RBA mapping, API discovery, and intent fit score (target: ≥ 0.7):
+
+Then open `intent.md` in the editor to read the full structured document:
+
+![intent.md open in VS Code editor with intent fit score and key findings in terminal](images/07_intent_md_open_in_editor.png)
+
+---
+
+**Next step →** [Exercise 2 — Review Intent, PRD & Specification](../ex02/README.md)
