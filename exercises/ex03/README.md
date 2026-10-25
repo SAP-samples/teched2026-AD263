@@ -12,8 +12,9 @@ The coding agent is now implementing the solution from the specification. This t
 
 ## Hunts in this exercise
 
-> **💡 How to jump to a hunt**
-> Press **Cmd+F** (Mac) or **Ctrl+F** (Windows/Linux) to open search, then type the hunt name — for example `Hunt 3` — to jump straight to it.
+> **💡 How to find the code**
+> Your agent folder name will vary (e.g. `supply-disruption-agent`, `supplier-halt-risk-agent`) — it matches `metadata.name` in `assets/<your-agent>/asset.yaml`. All the files below are inside `assets/<your-agent>/app/`.
+> Use **Cmd+P** (Mac) / **Ctrl+P** (Windows) in VS Code to open any file by name instantly — no folder navigation needed. Type `agent.py`, `mcp_tools.py`, or `conftest.py` and press Enter.
 
 | Hunt | What you find |
 |------|---------------|
@@ -27,7 +28,7 @@ The coding agent is now implementing the solution from the specification. This t
 
 ## Step 3.1 — Code Hunt
 
-Work through the hunts below as files appear in the Explorer panel — use **Ctrl+P** (Cmd+P on Mac) to open files by name without navigating the tree.
+Work through the hunts below as files appear in the Explorer panel.
 
 > **Note — Compare with your neighbour**
 > Your agent name, MCP server names, and threshold values may differ depending on how you answered the clarifying questions in Exercise 1. That is expected — every item below exists in every valid generation.
