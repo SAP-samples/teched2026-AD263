@@ -151,11 +151,13 @@ Work through this checklist:
 
 ## Step 4.3 — Optional: Try Other Interfaces
 
-Your agent is now live and reachable from multiple surfaces. Pick one or try all three:
+Your agent is live and reachable from multiple surfaces. Pick one or try both.
 
-**Option A — A2A via CLI**
+---
 
-Open a new terminal tab and send the disruption scenario directly:
+### Option A — A2A via CLI
+
+Open a new terminal tab and run:
 
 ```bash
 jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders." --solution <your-solution-id> --asset <your-agent-name>
@@ -163,47 +165,44 @@ jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all 
 
 **Where to find the values:**
 
-**Option 1 — Web UI:** Open your solution in Joule Studio and go to **Manage → Overview**. The Solution ID is in the browser URL bar. The Asset Name is in the asset table under the **Asset Name** column:
+| Value | Where to look |
+|---|---|
+| `--solution` | Browser URL bar on the **Manage → Overview** page, or in `deploy_result.json` at the root of your project |
+| `--asset` | **Asset Name** column in the Overview asset table, or `metadata.name` in `assets/<folder>/asset.yaml` |
 
-![Joule Studio Overview — Solution ID in URL bar and Asset Name in table](images/10_a2a_solution_id_webui.png)
+![Joule Studio Overview — Solution ID in URL bar and Asset Name in asset table](images/10_a2a_solution_id_webui.png)
 
-**Option 2 — Files:** Open `deploy_result.json` in the root of your project folder for the Solution ID:
+`deploy_result.json` and `asset.yaml` show the same values in VS Code:
 
-![deploy_result.json open in VS Code showing solution_id](images/08_a2a_deploy_result_json.png)
+![deploy_result.json showing solution_id](images/08_a2a_deploy_result_json.png)
 
-Or open `assets/<your-agent-folder>/asset.yaml` — the Asset Name is under `metadata.name`:
+![asset.yaml with metadata.name highlighted](images/09_a2a_asset_yaml_name.png)
 
-![asset.yaml open in VS Code with metadata.name highlighted](images/09_a2a_asset_yaml_name.png)
+> **Don't want to look up IDs?** Just ask the coding agent — it reads the files itself:
+> ```
+> Send an A2A message to my agent: Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
+> ```
 
-**Option A2 — ask the coding agent to send the A2A call for you**
+---
 
-You don't need to find any IDs manually — just ask:
+### Option B — Joule Work
 
-```
-Send an A2A message to my agent: Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
-```
+In Joule Studio, go to **Manage → Overview** and copy the **Asset ID** next to your AI Agent (it looks like `your-agent-name-xxxxx`):
 
-The coding agent will read `deploy_result.json` and `asset.yaml` itself and run the command for you.
+![Joule Studio Manage Overview — Asset ID column highlighted](images/06_joule_work_asset_id.png)
 
-**Option B — Joule Work conversation**
-
-First, find your agent's Asset ID. In Joule Studio, go to **Manage → Overview** and look at the asset table — copy the Asset ID next to your AI Agent (it looks like `your-agent-name-xxxxx`):
-
-![Joule Studio Manage Overview — Asset ID column with @ symbol highlighted](images/06_joule_work_asset_id.png)
-
-Open SAP Joule Work, start a new conversation, type `@` and paste the Asset ID, then add the prompt:
+Open SAP Joule Work, start a new conversation, type `@` followed by the Asset ID, then send the prompt:
 
 ```
 @<your-asset-id> Supplier USSU_V8003 has announced a production halt.
 Triage all their open purchase orders.
 ```
 
-![Joule Work — successful agent response with supply disruption impact report](images/07_joule_work_success.png)
-
-> **Note — Why this matters**
-> A2A is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Joule Work is the business-user surface. Testing both confirms your agent works end-to-end across all entry points.
+![Joule Work — successful agent response](images/07_joule_work_success.png)
 
 > **First run not working?** See [TS-05 — Agent unavailable on first Joule Work run](../../troubleshooting/README.md#ts-05--agent-unavailable-on-first-joule-work-run)
+
+> **Why this matters:** A2A is how machine-to-machine callers reach your agent — the same path an n8n workflow or another agent would use. Joule Work is the business-user surface. Testing both confirms your agent works end-to-end across all entry points.
 
 ---
 
