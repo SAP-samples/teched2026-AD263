@@ -9,6 +9,7 @@ Common issues encountered during the AD263 workshop, with root causes and fixes.
 | [TS-03](#ts-03--deployment-stuck-on-integrating) | Deployment stuck on "Integrating" | Exercise 4 — after deploy |
 | [TS-04](#ts-04--403-forbidden-on-alternative-supplier-lookup) | 403: Unable to retrieve alternative supplier information | Exercise 4 — agent response |
 | [TS-05](#ts-05--agent-unavailable-on-first-joule-work-run) | Agent unavailable on first Joule Work run | Exercise 4 — Step 4.3 Option B |
+| [TS-06](#ts-06--agent-execution-error-internal-server-error) | Agent execution error: Internal Server Error | Exercise 4 — first agent run |
 
 ---
 
@@ -153,3 +154,47 @@ Even after your agent status shows **Running** in Joule Studio, the first reques
 ### Fix
 
 Log out of Joule Work completely, then log back in. After a fresh login, tag the agent again with `@your-asset-id` — the agent will be available and respond correctly.
+
+---
+
+## TS-06 — Agent execution error: Internal Server Error
+
+### What you see
+
+The agent thinks for a long time (often 100+ seconds), then returns:
+
+> *Something went wrong*
+> *Agent execution error: Internal Server Error*
+
+![Agent execution error — Internal Server Error in Joule Studio](images/ts06_internal_server_error.png)
+
+Opening **Console → Logs** shows an error like:
+
+```
+sap_cloud_sdk.agentgateway._customer: Tool 'list_a_purchaseorderitem_for_api_purchaseorder_process_srv'
+returned an error: MCP Builder destination request failed. Status code: 400.
+Response: {"error": {"message": {"value": "Property Supplier not found in type A_PurchaseOrderItemType"}}}
+```
+
+### Root cause
+
+Your agent was generated using the **On-Premise Purchase Order API** (`API_PURCHASEORDER_PROCESS_SRV`) instead of the **Cloud Edition** (`CE_PURCHASEORDER_0001`). The On-Premise API's data model does not have a `Supplier` field on purchase order items — so every query fails with a 400, which the runtime surfaces as an Internal Server Error.
+
+This typically happens when IBD picks a different API than expected during specification. See [Exercise 2 — API Availability on This Tenant](../exercises/ex02/README.md#api-availability-on-this-tenant) for the full list of which APIs are available.
+
+### Fix — send the logs to the coding agent
+
+Download the logs (**Console → Logs → Download logs**) and send the file to the coding agent:
+
+```
+My agent is failing with an Internal Server Error.
+Here are the logs: <attach the downloaded log file>
+
+Please fix the agent to use only CE_PURCHASEORDER_0001 — the On-Premise API is not available on this tenant.
+```
+
+The coding agent will identify the wrong API in `asset.yaml`, swap it for `CE_PURCHASEORDER_0001`, and update the agent instructions to use the correct tool names. After the fix, redeploy:
+
+```
+deploy the agent
+```
