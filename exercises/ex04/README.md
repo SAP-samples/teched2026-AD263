@@ -85,6 +85,8 @@ PO items are at risk, what's the total open value, and which alternative supplie
 our best option based on PO history?
 ```
 
+![Send prompt to agent against mocked data](images/03_send_prompt_mocked_data.png)
+
 ---
 
 ## Step 4.2 — Your solution is green and running — test with real S/4HANA data
@@ -112,8 +114,6 @@ Pick a supplier from the table and send this to your agent — replace the suppl
 ```
 Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
 ```
-
-![Send prompt to agent against mocked data](images/03_send_prompt_mocked_data.png)
 
 ![Disruption scenario sent to deployed agent](images/04_disruption_scenario_sent.png)
 
