@@ -89,13 +89,30 @@ our best option based on PO history?
 
 ---
 
-## Step 4.2 — Run the Disruption Scenario in the Web UI
+## Step 4.2 — Run the Disruption Scenario with Real S/4HANA Data
 
-Your solution is already visible in the Joule Studio Web UI — watch its status change to **Running**. Once it does, open the agent and send the disruption scenario:
+Your solution is now running against the real SAP S/4HANA Public Cloud backend. Use the supplier table below to pick a real supplier ID and test the agent against live data.
+
+### Available test suppliers
+
+These suppliers have open purchase orders in the system. Use the supplier ID (the code in parentheses) as input to your agent.
+
+| Supplier name | Supplier ID | Open POs (examples) | Net value range |
+|---|---|---|---|
+| EV Parts Inc. | `USSU_V8000` | 4500097084, 4500096300, 4500095068 | $75k – $115k |
+| WaveCrest Labs | `USSU_V8001` | 4500095071 | $47k |
+| Vendor V8003 | `USSU_V8003` | 4500095072, 4500079663 | $263k – $386k |
+| Vendor V8004 | `USSU_V8004` | 4500096970, 4500086028 | $21k – $42k |
+
+You can verify PO data directly in S/4HANA (same login as your workshop account):
+[Open Purchase Orders in S/4HANA →](https://my444255.s4hana.cloud.sap/sap/bc/ui2/flp?sap-language=en&sap-shell=FLP&sap-touch=0#PurchaseOrder-manage?sap-ach=MM-FIO-PUR-PO&sap-keep-alive=restricted)
+
+### Send the disruption prompt
+
+Pick a supplier from the table and send this to your agent — replace the supplier ID with one from the table:
 
 ```
-Our supplier in Taiwan has announced a factory fire.
-The disruption started on 2024-03-01. What purchase orders are at risk?
+Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
 ```
 
 ![Disruption scenario sent to deployed agent](images/04_disruption_scenario_sent.png)
@@ -105,8 +122,7 @@ The disruption started on 2024-03-01. What purchase orders are at risk?
 Work through this checklist:
 
 **M1 — Signal intake**
-- [ ] Agent confirms it received the event type (factory fire), country (Taiwan), and date (2024-03-01)
-- [ ] Agent states it is beginning the triage sequence
+- [ ] Agent acknowledges the supplier ID and begins triage
 
 **M2 — SAP Data Retrieval**
 - [ ] Open purchase order items returned for the supplier, each labeled `[Confirmed Fact]`
@@ -119,6 +135,7 @@ Work through this checklist:
 
 **M4 — Consolidated Risk Report**
 - [ ] Risk-scored exposure summary presented with all items labeled `[Confirmed Fact]` or `[Assumption]`
+- [ ] Alternative suppliers listed for HIGH and MEDIUM items, or "No alternative supplier found in PO history"
 - [ ] Recommended actions labeled `[Recommendation]`
 
 ![Disruption scenario response with risk-scored report](images/05_disruption_scenario_response.png)
@@ -139,7 +156,7 @@ Your agent is now live and reachable from multiple surfaces. Pick one or try all
 Open a new terminal tab and send the disruption scenario directly:
 
 ```bash
-jl a2a message "Our supplier in Taiwan has announced a factory fire. The disruption started on 2024-03-01. What purchase orders are at risk?" --solution <your-solution-id> --asset <your-agent-name>
+jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders." --solution <your-solution-id> --asset <your-agent-name>
 ```
 
 The solution ID is printed when deployment completes. The asset name matches the folder under `assets/`.
@@ -149,8 +166,8 @@ The solution ID is printed when deployment completes. The asset name matches the
 Open SAP Joule Work and tag your agent by its asset ID:
 
 ```
-@<your-agent-name> Our supplier in Taiwan has announced a factory fire.
-The disruption started on 2024-03-01. What purchase orders are at risk?
+@<your-agent-name> Supplier USSU_V8003 has announced a production halt.
+Triage all their open purchase orders.
 ```
 
 > **Note — Why this matters**
@@ -161,7 +178,7 @@ The disruption started on 2024-03-01. What purchase orders are at risk?
 ## Summary
 
 ```
-Taiwan factory fire signal
+Supplier production halt signal (e.g. USSU_V8003)
         ↓
 M1  Disruption intake confirmed
         ↓
