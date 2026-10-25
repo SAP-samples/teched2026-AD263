@@ -145,6 +145,8 @@ Work through this checklist:
 
 > **Getting a 400 "Input is too long" error?** See [TS-01 — 400: Input is too long for requested model](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model)
 
+> **Getting "Agent execution error: Internal Server Error"?** See [TS-06 — Internal Server Error](../../troubleshooting/README.md#ts-06--agent-execution-error-internal-server-error) — your agent may have been generated with the wrong API.
+
 ---
 
 ## Step 4.3 — Optional: Try Other Interfaces
