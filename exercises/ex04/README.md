@@ -14,7 +14,7 @@ deploy the agent
 
 The agent is packaged and deployed to SAP managed Joule Studio runtime on the provided landscape. **Deployment includes full end-to-end integration — expect it to take several minutes.**
 
-> **Deployment taking longer than expected?** See [TS-03 — Deployment stuck on "Integrating"](../../troubleshooting/README.md#ts-03--deployment-stuck-on-integrating)
+> **Deployment taking longer than expected?** See [TS-03 — Deployment stuck on "Integrating"](../../troubleshooting/README.md#ts-03--deployment-stuck-on-integrating) — it also lists a **shared reference agent** you can test against while you wait.
 
 Before packaging, `jl solution validate` runs automatically. It checks 9 rules across your solution — from confirming `solution.yaml` exists and is schema-valid, to verifying every asset folder has a proper `asset.yaml`, every file reference resolves, and every agent uses a known LLM model. Errors block the deploy; warnings are advisory. If validation fails, the output tells you exactly which rule failed and what to fix.
 
@@ -142,6 +142,8 @@ Work through this checklist:
 
 > **💡 Use OTEL traces to debug**
 > If the agent skips a milestone or produces unexpected output, open the **Tracing** tab in Joule Studio — each span shows which tool was called, with what inputs, and how long it took. This is the fastest way to identify instruction drift or a misconfigured tool.
+
+> **Agent reports "no open items" for a supplier that clearly has open POs?** See [TS-07 — Agent falsely reports "no open items"](../../troubleshooting/README.md#ts-07--agent-falsely-reports-no-open-items)
 
 > **Getting a 400 "Input is too long" error?** See [TS-01 — 400: Input is too long for requested model](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model)
 
