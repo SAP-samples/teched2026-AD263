@@ -116,17 +116,15 @@ This is not an error — it is the platform working. The deployment will complet
 
 ### Test against the shared reference agent while you wait
 
-A fully deployed, working version of this agent — **`supplier-agent-north-star`** — is already running on the workshop landscape. You can send it the exact same disruption prompt to see the expected end-to-end behaviour while your own deployment finishes.
+A fully deployed, working version of this agent — **`supplier-agent-north-star`** — is running on the workshop landscape. You can send it the same disruption prompt in **Joule Work** to see the expected end-to-end behaviour while your own deployment finishes.
 
-**A2A via CLI:**
-```bash
-jl a2a message "Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders." --solution ba22fd7a-ada4-45c1-aad8-8effdd77677e --asset supply-disruption-agent
+In Joule Work, start a new conversation, type `@` followed by the reference agent's Asset ID, then send the prompt:
+
+```
+@supply-disruption-agent-xxxx Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
 ```
 
-**Joule Work:** start a new conversation, type `@supply-disruption-agent-xixhv` followed by the prompt:
-```
-@supply-disruption-agent-xixhv Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
-```
+> **Ask your facilitator for the current `@` Asset ID.** The reference agent is periodically redeployed during the session, so the `-xxxx` suffix changes each time — the facilitator will give you the one that is live right now.
 
 Expected result: **~30 open purchase-order items across 3 POs** (4500071516, 4500079663, 4500095072), each scored HIGH. If the reference agent returns this and yours does not once deployed, compare behaviour — and see [TS-07](#ts-07--agent-falsely-reports-no-open-items) if yours reports "no open items."
 
