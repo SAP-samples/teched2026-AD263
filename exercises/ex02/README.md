@@ -127,14 +127,40 @@ After execution, the full agent file structure is generated and the terminal con
 
 ![Specification complete — API Discovery Results open, full file structure in Explorer](images/06_spec_complete_file_structure.png)
 
-> **💡 MCP translation files**
-> Each MCP server entry in the spec references a `translation.json`. This file maps OpenAPI/EDMX endpoints to named tools the agent can call — you will see them generated in Exercise 3.
->
-> **Check the tool count before moving on.** The full `CE_PURCHASEORDER_0001` service exposes 80+ tools. If the spec doesn't constrain this, all of them get wired up and the agent will hit a context-window limit on every request (see [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model)). Ask the coding agent:
-> ```
-> How many MCP tools does my agent have? If more than 20, reduce them to only the read operations needed to list and retrieve purchase orders.
-> ```
-> Fixing it here takes seconds. Fixing it after deployment means redeploy.
+---
+
+## Step 2.4 — Validate how the agent accesses purchase-order data
+
+This is the most important check in this exercise. Two data-access decisions, made now in the spec, determine whether your agent works on the first run. Both are quick to fix here and cost a full redeploy to fix later — so do not skip this step.
+
+**1. Tool count.** Each MCP server entry in the spec references a `translation.json` that maps the service's endpoints to named tools (you will see them generated in Exercise 3). The full `CE_PURCHASEORDER_0001` service exposes **80+ tools**. If the spec does not constrain this, all of them get wired up and the agent hits a context-window limit on every request.
+
+- [ ] The spec limits the agent to only the read tools it needs (roughly ≤ 20), not the full service. See [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model).
+
+**2. Retrieval strategy.** Check that the agent finds open items by **filtering purchase-order items directly for the supplier** — *not* by first listing all of a supplier's purchase orders and then fetching each one's items. A single supplier can have **thousands** of purchase orders, so the "list everything first" approach gets truncated and the agent wrongly reports "no open items."
+
+- [ ] The spec retrieves open items by filtering items for the supplier, not by enumerating all of the supplier's PO headers. See [TS-07](../../troubleshooting/README.md#ts-07--agent-falsely-reports-no-open-items).
+
+If either check fails, fix it now — paste this to the coding agent:
+
+```
+How many MCP tools does my agent have? If more than 20, reduce them to only the
+read operations needed to list and retrieve purchase orders and purchase-order
+items.
+
+Also fix how the agent retrieves open items. Do NOT list a supplier's
+purchase-order headers and page through them — a supplier can have thousands of
+POs and the response truncates, so the agent misses the open ones. Instead query
+the PurchaseOrderItem entity directly in one call and filter:
+    IsCompletelyDelivered eq false and _PurchaseOrder/Supplier eq '<SUPPLIER>'
+The item entity has no Supplier field of its own — reach the supplier through the
+_PurchaseOrder navigation property. Use $count=true for the true total and page
+with $top/$skip until all open items are retrieved. Do NOT $select
+OpenPurchaseOrderQuantity on the item entity (it does not exist there and returns
+a 400). "Open" means IsCompletelyDelivered eq false.
+```
+
+> **Why this step matters:** these two issues (too many tools, and header-first retrieval) are the most common reasons a freshly generated agent fails or returns "no open items" at test time. Catching them in the spec takes seconds. Catching them after deployment means a 10-minute-to-1-hour redeploy.
 
 ---
 

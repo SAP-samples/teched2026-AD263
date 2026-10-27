@@ -23,7 +23,7 @@ When a key supplier has a production halt, I need an autonomous agent that:
 
 4. Returns one consolidated report ordered HIGH → MEDIUM → LOW with scores, rationale, and alternative suppliers per material.
 
-The agent only needs to read purchase orders and their items. It does not need to create, update, or delete anything.
+The agent only needs to read purchase orders and their items. It does not need to create, update, or delete anything. Start with intent.
 ```
 
 > **💡 In a hurry? Add `FastTrack.` to the end of your Step 1.1 prompt to skip all questions and go straight to the result.**

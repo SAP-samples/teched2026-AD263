@@ -10,6 +10,7 @@ Common issues encountered during the AD263 workshop, with root causes and fixes.
 | [TS-04](#ts-04--403-forbidden-on-alternative-supplier-lookup) | 403: Unable to retrieve alternative supplier information | Exercise 4 — agent response |
 | [TS-05](#ts-05--agent-unavailable-on-first-joule-work-run) | Agent unavailable on first Joule Work run | Exercise 4 — Step 4.3 Option B |
 | [TS-06](#ts-06--agent-execution-error-internal-server-error) | Agent execution error: Internal Server Error | Exercise 4 — first agent run |
+| [TS-07](#ts-07--agent-falsely-reports-no-open-items) | Agent falsely reports "no open items" | Exercise 4 — agent response |
 
 ---
 
@@ -113,6 +114,22 @@ This is not an error — it is the platform working. The deployment will complet
 
 **In real life:** Wait. Integration always completes — there is no action needed on your side. You can monitor progress in the Joule Studio Web UI under **Manage → Deployment**.
 
+### Test against the shared reference agent while you wait
+
+A fully deployed, working version of this agent — **`supplier-agent-north-star`** — is running on the workshop landscape. You can send it the same disruption prompt in **Joule Work** to see the expected end-to-end behaviour while your own deployment finishes.
+
+In Joule Work, start a new conversation, type `@` followed by the reference agent's Asset ID, then send the prompt:
+
+```
+@supply-disruption-agent-xxxx Supplier USSU_V8003 has announced a production halt. Triage all their open purchase orders.
+```
+
+> **Ask your facilitator for the current `@` Asset ID.** The reference agent is periodically redeployed during the session, so the `-xxxx` suffix changes each time — the facilitator will give you the one that is live right now.
+
+Expected result: **~30 open purchase-order items across 3 POs** (4500071516, 4500079663, 4500095072), each scored HIGH. If the reference agent returns this and yours does not once deployed, compare behaviour — and see [TS-07](#ts-07--agent-falsely-reports-no-open-items) if yours reports "no open items."
+
+> The reference agent is shared — if it is briefly unavailable, retry in a minute. Use it to unblock the testing exercises; always validate your own agent once its deployment turns green.
+
 ---
 
 ## TS-04 — 403: Unable to retrieve alternative supplier information
@@ -198,3 +215,44 @@ The coding agent will identify the wrong API in `asset.yaml`, swap it for `CE_PU
 ```
 deploy the agent
 ```
+
+---
+
+## TS-07 — Agent falsely reports "no open items"
+
+### What you see
+
+You run the disruption prompt for a supplier that genuinely has open purchase orders (e.g. `USSU_V8003`), but the agent confidently replies that there is nothing to triage:
+
+> *All purchase order items for supplier USSU_V8003 have been completely delivered. There are no open items — no supply disruption risk.*
+
+The deployment is green and no error appears in the logs — the agent just reaches the wrong conclusion.
+
+### Root cause
+
+The agent is discovering open items the **slow way**: it lists *all* of the supplier's purchase order headers first, then tries to fetch the items for each. In this system a single supplier can have **thousands** of historical purchase orders (e.g. `USSU_V8003` has well over 5,000). The full list is too large, so the agent's response gets truncated after the first page — which happens to contain only older, fully-delivered orders. Seeing nothing open in that first slice, it wrongly concludes the supplier has no open items.
+
+Unlike [TS-06](#ts-06--agent-execution-error-internal-server-error), this is **not** an error or a wrong-API problem — the query succeeds, it just looks at the wrong subset of data. That is what makes it easy to miss.
+
+### Fix — send this to the coding agent
+
+```
+My agent reports no open items for a supplier that definitely has open POs.
+Change it so it retrieves open purchase-order items directly and filters by
+supplier, instead of listing all the supplier's purchase orders first — some
+suppliers have thousands of POs and the full list gets truncated. "Open" means
+the item is not completely delivered.
+```
+
+After the coding agent updates the retrieval logic, redeploy:
+
+```
+deploy the agent
+```
+
+### Verify the fix
+
+Re-run the disruption prompt. As a sanity check, `USSU_V8003` should now return roughly **30 open items across 3 purchase orders** (4500071516, 4500079663, 4500095072). If you still get "none," the agent is still enumerating headers — re-apply the fix above.
+
+> **Why this works**
+> "Open" is a property of the purchase order *item* (whether it has been completely delivered), not something you find by scanning every header. Filtering items directly for the supplier returns only the handful of still-open lines, no matter how large the supplier's total order history is.
