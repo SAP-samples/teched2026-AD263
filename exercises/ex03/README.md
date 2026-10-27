@@ -128,7 +128,7 @@ Open the `tests/` folder inside your agent asset directory.
 
 ---
 
-## Step 3.2 — Verify the Generated File Structure
+## Step 3.3 — Verify the Generated File Structure
 
 When the coding agent finishes, verify your project has this shape. The exact folder and file names will match your agent — they will differ from the example below.
 
@@ -172,7 +172,7 @@ When the coding agent finishes, verify your project has this shape. The exact fo
 
 ---
 
-## Step 3.3 — Pre-deploy: validate retrieval performance
+## Step 3.2 — Pre-deploy: validate retrieval performance
 
 Before deploying, ask the coding agent to check one common performance issue in generated agents: fetching PO items one purchase order at a time instead of in a single batched call.
 
