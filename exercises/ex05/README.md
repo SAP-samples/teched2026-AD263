@@ -20,13 +20,26 @@ Congratulations on completing the main scenario! If you have time remaining, try
    jl init claude
    ```
 
-4. In the coding agent, type:
+4. Open `onboarding-agent-prd.md` and read through it — notice it was written by hand, without API ORD IDs or a fit-gap analysis.
+
+5. In the coding agent, type:
 
    ```
-   Use the PRD at ./onboarding-agent-prd.md to implement the agent.
+   I have a PRD at ./onboarding-agent-prd.md. Use it as input to regenerate a proper IBD PRD with API discovery from the SAP Knowledge Graph — including ORD IDs, fit-gap analysis, and capability coverage. Do not create a specification yet.
    ```
 
-5. Compare what IBD generates from the PRD vs. what it generated from the intent prompt in Exercise 1 — which produced a more precise specification?
+6. When the new `product-requirements-document.md` is generated, compare it to the original hand-written PRD:
+   - Which APIs did IBD discover? Do they have ORD IDs?
+   - What did the fit-gap analysis surface that the hand-written PRD missed?
+   - Which requirements changed or became more precise?
+
+7. When you're ready to build, type:
+
+   ```
+   Create specification
+   ```
+
+8. Compare what IBD generates from the PRD vs. what it generated from the intent prompt in Exercise 1 — which starting point produced a more precise specification?
 
 ---
 

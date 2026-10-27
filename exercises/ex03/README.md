@@ -17,11 +17,10 @@ The coding agent is now implementing the solution from the specification. This t
 
 | Hunt | What you find |
 |------|---------------|
-| [Hunt 1](#hunt-1----appagentpy) | Model config & milestone logging in `agent.py` |
+| [Hunt 1](#hunt-1----appagentpy) | Model config in `agent.py` |
 | [Hunt 2](#hunt-2----risk-scoring-wherever-your-generation-put-it) | Risk scoring logic and HIGH/MEDIUM/LOW thresholds |
-| [Hunt 3](#hunt-3----output-labeling) | `[Confirmed Fact]` / `[Assumption]` / `[Recommendation]` labels |
-| [Hunt 4](#hunt-4----mcp-tool-indirection-appmcp_toolspy) | MCP tool indirection in `mcp_tools.py` |
-| [Hunt 5](#hunt-5----tests) | Test structure and offline mocking |
+| [Hunt 3](#hunt-3----mcp-tool-indirection-appmcp_toolspy) | MCP tool indirection in `mcp_tools.py` |
+| [Hunt 4](#hunt-4----tests) | Test structure and offline mocking |
 
 ---
 
@@ -47,17 +46,6 @@ def get_model_name() -> str:
 > **Note**
 > The `@agent_model` decorator exposes this setting in the Joule Studio Design View, so the model can be changed without touching the surrounding code. The same pattern applies to temperature and other config values via `@agent_config`.
 
-Find the OTel milestone logging. Look for `logger.info` calls that contain milestone markers like `M1.achieved` or `M5.achieved` — these track whether key pipeline steps succeeded or were skipped:
-
-```python
-logger.info("[M1.achieved]: MCP tools loaded successfully — proceeding with agent")
-...
-logger.info("[M5.achieved]: Risk assessment report delivered to requestor")
-```
-
-- [ ] Found milestone logging. How many milestones are instrumented?
-- [ ] The span wraps the `execute()` method, not `stream()` — why does that matter for tracing parallel tool calls?
-
 ### Hunt 2 — Risk scoring (wherever your generation put it)
 
 IBD can implement risk scoring in different ways — a Python file (`app/tools/scoring_engine.py`), a runtime skill (`app/skills/risk-scoring/SKILL.md`), or inline in `agent.py`. Find where yours ended up.
@@ -75,29 +63,13 @@ VALUE_HIGH_EUR     = float(os.getenv("VALUE_HIGH_EUR", "50000"))
 Or like this if implemented as a runtime skill:
 
 ```markdown
-## Scoring Thresholds [Assumption]
+## Scoring Thresholds
 - HIGH: delivery within 14 days AND open value ≥ €50k
 - MEDIUM: delivery within 30 days OR open value ≥ €10k
 - LOW: all other lines
 ```
 
-- [ ] The thresholds are labeled `[Assumption]` — why does that distinction matter for the procurement manager reading the output?
-
-### Hunt 3 — Output labeling
-
-Find where `[Confirmed Fact]`, `[Assumption]`, and `[Recommendation]` labels are applied. This may be in `app/tools/labeling.py`, inline in `agent.py`, or in a runtime skill.
-
-```python
-def label_confirmed_fact(value, field_name=""):
-    return {"label": "[Confirmed Fact]", "field": field_name, "value": value}
-```
-
-- [ ] Found the labeling logic
-- [ ] Confirmed that API-retrieved values (PO number, supplier, delivery date) are labeled `[Confirmed Fact]`
-- [ ] Confirmed that scoring thresholds and geographic assumptions are labeled `[Assumption]`
-- [ ] Confirmed that suggested re-routing actions are labeled `[Recommendation]`
-
-### Hunt 4 — MCP tool indirection (`app/mcp_tools.py`)
+### Hunt 3 — MCP tool indirection (`app/mcp_tools.py`)
 
 Find the file `app/mcp_tools.py`. It should be a thin wrapper — not the actual MCP connector:
 
@@ -111,11 +83,11 @@ __all__ = ["get_mcp_tools"]
 > **Note**
 > `mcp_tools.py` is the patch target in tests — `conftest.py` mocks `get_mcp_tools` here so tests never need a live Agent Gateway connection. Importing directly from the SDK would break the mock.
 
-### Hunt 5 — Tests
+### Hunt 4 — Tests
 
 Open the `tests/` folder inside your agent asset directory.
 
-- [ ] At least one test file per tool (`test_scoring_engine.py`, `test_labeling.py`, etc.)
+- [ ] At least one test file per tool (`test_scoring_engine.py`, etc.)
 - [ ] An integration test (`test_integration.py`) that exercises the full pipeline without network calls
 - [ ] A `conftest.py` that patches `get_mcp_tools` so tests run offline
 - [ ] All tests pass

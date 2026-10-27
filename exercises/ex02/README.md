@@ -54,10 +54,14 @@ Use this table when reviewing the PRD and specification. IBD may discover APIs t
 | `sap.s4:apiResource:API_BUSINESS_PARTNER:v1`          | Business Partner                             | ❌ No      |
 | `sap.s4:apiResource:API_PURCHASEORDER_PROCESS_SRV:v1` | Purchase Orders (On-Premise Edition)         | ❌ No      |
 
-> **💡 Why does IBD sometimes pick the wrong API?**
-> IBD does its best to discover APIs relevant to your intent — but developers don't always have access to the real backend, and not every API in the SAP Knowledge Graph is registered or accessible on every tenant. This is normal in real-world projects too: you design against what the catalogue says is available, then validate against what your specific system actually exposes.
+> **💡 Why does IBD sometimes suggest an API that isn't available here?**
+> IBD discovers APIs from the SAP Knowledge Graph — a broad catalogue of what SAP systems *can* expose. It makes the best recommendation it can based on your intent, but it doesn't know which APIs are active on your specific tenant. This is a normal part of real-world development: you design against what the catalogue says is available, then validate against what your system actually exposes.
 >
-> For this end-to-end workshop exercise, stick to the one API we know all participants have access to: **`CE_PURCHASEORDER_0001`**. If IBD suggests anything else, redirect it using the guidance in Steps 2.2–2.3.
+> For this workshop, stick to **`CE_PURCHASEORDER_0001`** — the one API all participants have access to. If IBD suggests anything else, redirect it using the guidance in Steps 2.2–2.3.
+>
+> If your deployed agent returns a 403 on the alternative supplier lookup, that's expected — see [TS-04](../../troubleshooting/README.md#ts-04--403-forbidden-on-alternative-supplier-lookup) for details.
+>
+> If your agent was generated with the On-Premise API (`API_PURCHASEORDER_PROCESS_SRV`) instead of the Cloud Edition, it will fail at runtime with an Internal Server Error — see [TS-06](../../troubleshooting/README.md#ts-06--agent-execution-error-internal-server-error) for the fix.
 
 
 ## Step 2.2 — Review the PRD
@@ -74,9 +78,13 @@ Open it from the Explorer panel and review the full document:
 
 - [ ] Business metrics are meaningful and match your input intent
 - [ ] Personas for the use case are well defined
-- [ ] Solution architecture lists exactly S/4HANA MCP servers that are avaliable on this tenant
+- [ ] Solution architecture lists exactly S/4HANA MCP servers that are available on this tenant
 - [ ] All milestones are represented as named functional requirements
 - [ ] The composite risk scoring model (HIGH / MEDIUM / LOW) is described as a functional requirement
+- [ ] The functional requirements describe **only the operations the agent needs** — list/get on PO headers and items. If the PRD mentions create, update, or delete operations, correct it now.
+
+> **💡 Why does the tool count matter?**
+> Every tool definition is sent to the LLM with every request. An MCP server like `CE_PURCHASEORDER_0001` exposes 80+ tools covering the full OData service — read, write, delete. If the spec doesn't constrain this, the implementation will expose all of them, filling the model's context window before it can reason. The fix is to catch it here: if the PRD only describes read operations, the spec and implementation will only wire up read tools. See [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model) for what happens when this is missed.
 
 
 > **Note**
@@ -102,6 +110,7 @@ IBD generates `specification.md` inside `specification/<your-agent-name>/`. Open
 - [ ] Exactly **one** S/4HANA MCP server is listed — only `CE_PURCHASEORDER_0001`
 - [ ] A `risk_scoring` logic is described
 - [ ] Guidance for the agent is captured in `.md` skill files
+- [ ] The spec lists **only read operations** (list/get) — no create, update, or delete. If write operations appear, tell the coding agent: `"Remove all write operations — this agent is read-only."`
 
 > **⚠️ Unregistered API in the spec?**
 > If the spec lists any API other than `CE_PURCHASEORDER_0001`, **stop here** and correct it now. Deploying with an unregistered API in `asset.yaml` will fail with a tenant configuration error in Exercise 4. Tell the coding agent: `"Remove [API name] from the specification and only use CE_PURCHASEORDER_0001."` The spec is the direct input to implementation — fixing it here is much faster than fixing it after code is generated.
@@ -118,8 +127,40 @@ After execution, the full agent file structure is generated and the terminal con
 
 ![Specification complete — API Discovery Results open, full file structure in Explorer](images/06_spec_complete_file_structure.png)
 
-> **💡 MCP translation files**
-> Each MCP server entry in the spec references a `translation.json`. This file maps OpenAPI/EDMX endpoints to named tools the agent can call — you will see them generated in Exercise 3.
+---
+
+## Step 2.4 — Validate how the agent accesses purchase-order data
+
+This is the most important check in this exercise. Two data-access decisions, made now in the spec, determine whether your agent works on the first run. Both are quick to fix here and cost a full redeploy to fix later — so do not skip this step.
+
+**1. Tool count.** Each MCP server entry in the spec references a `translation.json` that maps the service's endpoints to named tools (you will see them generated in Exercise 3). The full `CE_PURCHASEORDER_0001` service exposes **80+ tools**. If the spec does not constrain this, all of them get wired up and the agent hits a context-window limit on every request.
+
+- [ ] The spec limits the agent to only the read tools it needs (roughly ≤ 20), not the full service. See [TS-01](../../troubleshooting/README.md#ts-01--400-input-is-too-long-for-requested-model).
+
+**2. Retrieval strategy.** Check that the agent finds open items by **filtering purchase-order items directly for the supplier** — *not* by first listing all of a supplier's purchase orders and then fetching each one's items. A single supplier can have **thousands** of purchase orders, so the "list everything first" approach gets truncated and the agent wrongly reports "no open items."
+
+- [ ] The spec retrieves open items by filtering items for the supplier, not by enumerating all of the supplier's PO headers. See [TS-07](../../troubleshooting/README.md#ts-07--agent-falsely-reports-no-open-items).
+
+If either check fails, fix it now — paste this to the coding agent:
+
+```
+How many MCP tools does my agent have? If more than 20, reduce them to only the
+read operations needed to list and retrieve purchase orders and purchase-order
+items.
+
+Also fix how the agent retrieves open items. Do NOT list a supplier's
+purchase-order headers and page through them — a supplier can have thousands of
+POs and the response truncates, so the agent misses the open ones. Instead query
+the PurchaseOrderItem entity directly in one call and filter:
+    IsCompletelyDelivered eq false and _PurchaseOrder/Supplier eq '<SUPPLIER>'
+The item entity has no Supplier field of its own — reach the supplier through the
+_PurchaseOrder navigation property. Use $count=true for the true total and page
+with $top/$skip until all open items are retrieved. Do NOT $select
+OpenPurchaseOrderQuantity on the item entity (it does not exist there and returns
+a 400). "Open" means IsCompletelyDelivered eq false.
+```
+
+> **Why this step matters:** these two issues (too many tools, and header-first retrieval) are the most common reasons a freshly generated agent fails or returns "no open items" at test time. Catching them in the spec takes seconds. Catching them after deployment means a 10-minute-to-1-hour redeploy.
 
 ---
 
