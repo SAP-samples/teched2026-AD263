@@ -125,18 +125,17 @@ Work through this checklist:
 - [ ] Agent acknowledges the supplier ID and begins triage
 
 **M2 — SAP Data Retrieval**
-- [ ] Open purchase order items returned for the supplier, each labeled `[Confirmed Fact]`
+- [ ] Open purchase order items returned for the supplier
 
 **M3 — Risk Scoring**
 - [ ] Each line item is assigned HIGH, MEDIUM, or LOW
 - [ ] Scoring rationale is shown (delivery proximity, open value, geographic overlap)
-- [ ] Scoring thresholds are labeled `[Assumption]`
+- [ ] Scoring thresholds shown
 - [ ] Results sorted HIGH → MEDIUM → LOW
 
 **M4 — Consolidated Risk Report**
-- [ ] Risk-scored exposure summary presented with all items labeled `[Confirmed Fact]` or `[Assumption]`
-- [ ] Alternative suppliers listed for HIGH and MEDIUM items, or "No alternative supplier found in PO history"
-- [ ] Recommended actions labeled `[Recommendation]`
+- [ ] Risk-scored exposure summary presented
+- [ ] Recommended actions listed
 
 ![Disruption scenario response with risk-scored report](images/05_disruption_scenario_response.png)
 
@@ -207,11 +206,11 @@ Supplier production halt signal (e.g. USSU_V8003)
         ↓
 M1  Disruption intake confirmed
         ↓
-M2  Open PO items retrieved  [Confirmed Fact]
+M2  Open PO items retrieved
         ↓
-M3  Risk scored: HIGH / MEDIUM / LOW with rationale  [Assumption for thresholds]
+M3  Risk scored: HIGH / MEDIUM / LOW with rationale
         ↓
-M4  Consolidated risk report presented  [Recommendation]
+M4  Consolidated risk report presented
 ```
 
 **Next step →** [Exercise 5 — Bonus Exercises](../ex05/README.md) — if you have time remaining.
