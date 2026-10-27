@@ -4,6 +4,29 @@ In this exercise you will deploy your agent to Joule Studio and run the full sup
 
 ---
 
+## Step 4.0 — Pre-deploy: validate retrieval performance
+
+Before deploying, ask the coding agent to check one common performance issue in generated agents: fetching PO items one purchase order at a time instead of in a single batched call.
+
+A supplier like `USSU_V8003` has 3 open POs — manageable either way. But on a supplier with dozens of open POs, a per-PO loop makes one API call per order and runs significantly slower. The fix is a single item-level call filtered on all PO numbers at once.
+
+Send this to the coding agent:
+
+```
+Before I deploy, check my agent's purchase-order retrieval logic.
+Does it fetch all PO items in a single batched call — filtering on
+all PO numbers at once — or does it make one separate call per
+purchase order? If it's looping one call per PO, refactor it to
+batch them into a single request.
+```
+
+The coding agent will read your `agent.py` (or wherever the retrieval logic lives) and either confirm it is already batched, or refactor it to use a single call.
+
+> **Why this matters**
+> The risk-scoring logic lives at the item level — material, open value, planned delivery duration. The agent has to retrieve PO headers first to discover which POs exist, then fetch their items. If it makes a separate item call per header, latency scales linearly with the number of open POs. A single batched call (`PurchaseOrder eq 'PO1' or PurchaseOrder eq 'PO2' or ...`) returns everything in one round trip regardless of how many POs there are.
+
+---
+
 ## Step 4.1 — Validate and Deploy
 
 Ask the coding agent to deploy:
