@@ -72,7 +72,6 @@ By the end of this session your agent will:
       │   presented to procurement manager       │
       └─────────────────────────────────────────┘
 
-  Every output: [Confirmed Fact] | [Assumption] | [Recommendation]
 ```
 
 ---
@@ -135,7 +134,7 @@ After completing this session you will be able to:
 1. Use the Joule Studio **local / CLI** IBD flow end-to-end: Intent → PRD → Specification → Implementation
 2. Discover SAP APIs via the SAP Knowledge Graph and generate MCP servers from OpenAPI and EDMX specs
 3. Build a multi-API AI agent on SAP S/4HANA Public Cloud from scratch
-4. Implement risk scoring and output labeling as production-grade agent guardrails
+4. Implement risk scoring as a production-grade agent guardrail
 5. Deploy and test an AI agent via the Joule Studio CLI (`jl`) and interact with it through SAP Joule
 
 ---

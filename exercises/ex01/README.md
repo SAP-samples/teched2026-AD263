@@ -64,7 +64,7 @@ IBD may show a numbered list of goals — pick the ones that fit. For this scena
 → `Source to Pay` — specifically the supplier disruption response part: triage open POs.
 
 **"Are there any compliance or auditability requirements?"**
-→ `Yes` — every piece of information the agent presents must be labeled: `[Confirmed Fact]` for data retrieved from SAP systems, `[Assumption]` for scoring thresholds, `[Recommendation]` for suggested actions.
+→ `Yes` — all triage steps must be traceable: which POs were checked, what risk scores were assigned, and what actions were recommended.
 
 **"What is the urgency / timeline?"**
 → All affected POs must be triaged within 30 minutes of the disruption signal.
